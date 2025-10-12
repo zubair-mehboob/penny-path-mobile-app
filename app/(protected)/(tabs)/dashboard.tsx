@@ -1,10 +1,8 @@
 import { Text, View } from "react-native";
-
-const Signup = () => {
+export default function DashboardPage() {
   return (
     <View>
-      <Text>Signup page</Text>
+      <Text>Dashboard page</Text>
     </View>
   );
-};
-export default Signup;
+}
