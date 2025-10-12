@@ -1,43 +1,55 @@
-import { createContext, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RelativePathString, router } from "expo-router";
+import { createContext, useEffect, useState } from "react";
 type User = {
   name: string;
   email: string;
+  id: number;
 };
+
 interface IAuthContext {
-  user: any;
+  user: User | null;
   token: string | null;
-  login: (token: string, user?: User) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (token: string, user: User) => void;
+  logout: () => void;
   isLoading: boolean;
 }
-export const AuthContext = createContext<IAuthContext>({
+const AuthContext = createContext<IAuthContext>({
   user: null,
-  token: "",
-  login: async (token: string, user?: User) => {},
-  logout: async () => {},
   isLoading: false,
+  token: null,
+  login: (token: string, user?: User) => void {},
+  logout: () => void {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const login = async (
-    token: string,
-    user: User = { name: "zubair", email: "a@y.com" }
-  ) => {
+  const login = async (token: string, user: User) => {
     setUser(user);
     setToken(token);
+    await AsyncStorage.setItem("user", JSON.stringify(user));
+    await AsyncStorage.setItem("toekn", JSON.stringify(token));
+    router.replace("/(protected)" as RelativePathString);
   };
   const logout = async () => {
     setUser(null);
-    setToken(null);
+    await AsyncStorage.removeItem("user");
+    router.replace("/auth/signin");
   };
-  return (
-    <AuthContext.Provider
-      value={{ isLoading, login, logout, token, user }}
-    ></AuthContext.Provider>
-  );
+  useEffect(() => {
+    const checkAuth = async () => {
+      const storedUser = await AsyncStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        router.replace("/(protected)" as RelativePathString);
+      } else {
+        router.replace("/auth/signin");
+      }
+    };
+    checkAuth();
+  }, []);
+  const value = { login, logout, token, user, isLoading };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export const useAuth = () => useContext(AuthContext);
