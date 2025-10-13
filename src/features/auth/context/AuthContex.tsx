@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RelativePathString, router } from "expo-router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 type User = {
   name: string;
   email: string;
@@ -53,3 +53,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = { login, logout, token, user, isLoading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}

@@ -1,10 +1,5 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import SigninScreen from "@/src/features/auth/screens/SigninScreen";
+
 export default function SigninPage() {
-  return (
-    <View>
-      <Text>This is Signin page</Text>
-      <Link href={"/auth/signup"}>Go to signup</Link>
-    </View>
-  );
+  return <SigninScreen />;
 }
