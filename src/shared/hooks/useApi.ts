@@ -1,22 +1,36 @@
 // src/api/useApi.ts
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import apiClient from "../services/api-client.service";
 
-export const useGet = (key: string[], url: string, options = {}) => {
-  return useQuery({
+// ✅ Type-safe GET
+export const useGet = <TData>(
+  key: string[],
+  url: string,
+  options?: Omit<UseQueryOptions<TData>, "queryKey" | "queryFn">
+) => {
+  return useQuery<TData>({
     queryKey: key,
     queryFn: async () => {
-      const { data } = await apiClient.get(url);
+      const { data } = await apiClient.get<TData>(url);
       return data;
     },
     ...options,
   });
 };
 
-export const usePost = (url: string, options = {}) => {
-  return useMutation({
-    mutationFn: async (body: any) => {
-      const { data } = await apiClient.post(url, body);
+// ✅ Type-safe POST
+export const usePost = <TData, TVariables>(
+  url: string,
+  options?: Omit<UseMutationOptions<TData, unknown, TVariables>, "mutationFn">
+) => {
+  return useMutation<TData, unknown, TVariables>({
+    mutationFn: async (body: TVariables) => {
+      const { data } = await apiClient.post<TData>(url, body);
       return data;
     },
     ...options,

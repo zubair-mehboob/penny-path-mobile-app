@@ -12,12 +12,12 @@ export default function SignupScreen({ navigation }: any) {
   return (
     <Stack
       flex={1}
-      justifyContent="center"
-      alignItems="center"
+      justify="center"
+      items="center"
       background="$background"
-      padding="$5"
+      p="$5"
     >
-      <Text fontSize={28} fontWeight="700" color="$color" marginBottom="$5">
+      <Text fontSize={28} fontWeight="700" color="$color" mb="$5">
         Sign Up
       </Text>
 
@@ -44,14 +44,14 @@ export default function SignupScreen({ navigation }: any) {
       <Button
         background="$primary"
         color="white"
-        marginTop="$4"
+        mt="$4"
         onPress={() => alert("Account Created!")}
       >
         Create Account
       </Button>
 
       <Button
-        marginTop="$3"
+        mt="$3"
         variant="outlined"
         borderColor="$primary"
         color="$color"

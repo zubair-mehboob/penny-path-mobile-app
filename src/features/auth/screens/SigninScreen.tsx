@@ -1,5 +1,7 @@
 // src/screens/LoginScreen.tsx
 import { AppInput } from "@/src/shared/components/input.component";
+import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
+import { usePost } from "@/src/shared/hooks/useApi";
 import { useThemeService } from "@/src/shared/hooks/useThemeService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -9,15 +11,21 @@ export default function SigninScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const onSignin = usePost<
+    { userId: number; name: string; email: string; jwt: string }, //return type
+    { email: string; password: string } // dto
+  >(ENDPOINTS.auth.login, {
+    onSuccess: () => alert("Post created!"),
+  });
   return (
     <Stack
       flex={1}
-      justifyContent="center"
-      alignItems="center"
+      justify="center"
+      items="center"
       background="$background"
-      padding="$5"
+      p={5}
     >
-      <Text fontSize={28} fontWeight="700" color="$color" marginBottom="$5">
+      <Text fontSize={28} fontWeight={700} color="$color" mb={5}>
         Login
       </Text>
 
@@ -38,14 +46,14 @@ export default function SigninScreen({ navigation }: any) {
       <Button
         background="$primary"
         color="white"
-        marginTop="$4"
-        onPress={() => alert("Logged In")}
+        mt={4}
+        onPress={() => onSignin.mutate({ email: "z@g.co", password: "abc" })}
       >
         Login
       </Button>
 
       <Button
-        marginTop="$3"
+        mt={3}
         variant="outlined"
         borderColor="$primary"
         color="$color"
@@ -54,7 +62,14 @@ export default function SigninScreen({ navigation }: any) {
         Go to Signup
       </Button>
 
-      <Button marginTop="$6" onPress={toggleTheme}>
+      <Button
+        mt={6}
+        onPress={() => {
+          console.log("gonna cll this");
+          alert("haha");
+          toggleTheme();
+        }}
+      >
         Toggle Theme
       </Button>
     </Stack>

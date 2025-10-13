@@ -16,8 +16,8 @@ export const AppInput = ({
   value,
   onChangeText,
 }: AppInputProps) => (
-  <Stack marginBottom="$4">
-    <Label color="$color" marginBottom="$1">
+  <Stack mb={4}>
+    <Label color="$color" mb={1}>
       {label}
     </Label>
     <Input
@@ -27,9 +27,10 @@ export const AppInput = ({
       onChangeText={onChangeText}
       borderColor="$primary"
       borderWidth={1}
-      paddingHorizontal="$3"
-      paddingVertical="$2"
-      borderRadius="$4"
+      px={3}
+      py={2}
+      b={4}
+      width={200}
       color="$color"
     />
   </Stack>

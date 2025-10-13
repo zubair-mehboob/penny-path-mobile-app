@@ -1,8 +1,7 @@
-export const BASE_URL = "http://localhost:3000";
 export const ENDPOINTS = {
   auth: {
-    login: "/auth/login",
-    register: "/auth/register",
+    login: "/auth/signin",
+    register: "/auth/signup",
   },
   user: {
     profile: "/user/profile",

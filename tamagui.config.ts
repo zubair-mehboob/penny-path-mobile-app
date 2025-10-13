@@ -1,16 +1,25 @@
 // tamagui.config.ts
-import { tokens } from "@tamagui/themes";
+import { defaultConfig } from "@tamagui/config/v4";
 import { createTamagui } from "tamagui";
 
-const themes = {
-  light: { background: "#fff", color: "#000", primary: "#007aff" },
-  dark: { background: "#000", color: "#fff", primary: "#0a84ff" },
-};
-
+// 👇 You can override any tokens, themes, etc.
 export const config = createTamagui({
-  tokens,
-  themes,
-  defaultTheme: "light",
+  ...defaultConfig,
+  themes: {
+    ...defaultConfig.themes,
+    light: {
+      ...defaultConfig.themes.light,
+      background: "#ffffff",
+      color: "#000000",
+      primary: "#007bff",
+    },
+    dark: {
+      ...defaultConfig.themes.dark,
+      background: "#000000",
+      color: "#ffffff",
+      primary: "#007bff",
+    },
+  },
 });
 
 export type AppConfig = typeof config;

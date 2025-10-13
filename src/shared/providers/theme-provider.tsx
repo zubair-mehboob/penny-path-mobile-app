@@ -1,38 +1,49 @@
-// src/theme/ThemeProvider.tsx
+// src/providers/ThemeProvider.tsx
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { createContext, ReactNode, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { TamaguiProvider, Theme } from "tamagui";
 import { config } from "../../../tamagui.config";
 
 type ThemeType = "light" | "dark";
 
-interface ThemeContextType {
+interface ThemeContextValue {
   theme: ThemeType;
   toggleTheme: () => void;
 }
 
-export const ThemeContext = createContext<ThemeContextType>({
+export const ThemeContext = createContext<ThemeContextValue>({
   theme: "light",
   toggleTheme: () => {},
 });
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+export const useThemeContext = () => useContext(ThemeContext);
+
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<ThemeType>("light");
 
+  // Load persisted theme from storage
   useEffect(() => {
-    (async () => {
-      const saved = await AsyncStorage.getItem("appTheme");
-      if (saved === "dark" || saved === "light") {
-        setTheme(saved);
+    AsyncStorage.getItem("app-theme").then((storedTheme) => {
+      if (storedTheme === "light" || storedTheme === "dark") {
+        setTheme(storedTheme);
       }
-    })();
+    });
   }, []);
 
-  const toggleTheme = async () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    await AsyncStorage.setItem("appTheme", nextTheme);
-  };
+  // Toggle and save theme
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      AsyncStorage.setItem("app-theme", next);
+      return next;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

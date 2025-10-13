@@ -1,10 +1,10 @@
 // src/api/apiClient.ts
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { BASE_URL } from "../constants/endpoints.constant";
+import { BASE_URL } from "../constants/config";
 
 const apiClient = axios.create({
-  baseURL: `${BASE_URL}/api`, // adjust if your NestJS routes start with /api
+  baseURL: `${BASE_URL}`, // adjust if your NestJS routes start with /api
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
