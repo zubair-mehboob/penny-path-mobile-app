@@ -31,6 +31,7 @@ export const usePost = <TData, TVariables>(
   return useMutation<TData, unknown, TVariables>({
     mutationFn: async (body: TVariables) => {
       const { data } = await apiClient.post<TData>(url, body);
+      console.log("reached here in usePost", data);
       return data;
     },
     ...options,

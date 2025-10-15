@@ -6,16 +6,20 @@ import { useThemeService } from "@/src/shared/hooks/useThemeService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Button, Stack, Text } from "tamagui";
+import { useAuth } from "../context/AuthContex";
 export default function SigninScreen({ navigation }: any) {
   const { toggleTheme } = useThemeService();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { login } = useAuth();
   const onSignin = usePost<
     { userId: number; name: string; email: string; jwt: string }, //return type
     { email: string; password: string } // dto
   >(ENDPOINTS.auth.login, {
-    onSuccess: () => alert("Post created!"),
+    onSuccess: (res) => {
+      login(res.jwt, { email: res.email, name: res.name, userId: res.userId });
+    },
   });
   return (
     <Stack
@@ -47,7 +51,7 @@ export default function SigninScreen({ navigation }: any) {
         background="$primary"
         color="white"
         mt={4}
-        onPress={() => onSignin.mutate({ email: "z@g.co", password: "abc" })}
+        onPress={() => onSignin.mutate({ email, password })}
       >
         Login
       </Button>

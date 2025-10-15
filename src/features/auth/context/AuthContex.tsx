@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RelativePathString, router } from "expo-router";
+import { router } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 type User = {
   name: string;
   email: string;
-  id: number;
+  userId: number;
 };
 
 interface IAuthContext {
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setToken(token);
     await AsyncStorage.setItem("user", JSON.stringify(user));
     await AsyncStorage.setItem("toekn", JSON.stringify(token));
-    router.replace("/(protected)" as RelativePathString);
+    router.replace("/(protected)/(tabs)/dashboard");
   };
   const logout = async () => {
     setUser(null);
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const storedUser = await AsyncStorage.getItem("user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
-        router.replace("/(protected)" as RelativePathString);
+        router.replace("/(protected)/(tabs)/dashboard");
       } else {
         router.replace("/auth/signin");
       }
