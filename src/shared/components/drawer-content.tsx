@@ -7,6 +7,7 @@ import {
 
 export function CustomDrawerContent(props: any) {
   const { logout } = useAuth();
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />

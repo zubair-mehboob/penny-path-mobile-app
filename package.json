@@ -19,6 +19,7 @@
     "@react-navigation/native": "^7.1.8",
     "@tamagui/config": "^1.135.2",
     "@tamagui/create-themes": "^1.121.12",
+    "@tamagui/lucide-icons": "^1.135.2",
     "@tamagui/themes": "^1.135.2",
     "@tanstack/react-query": "^5.90.2",
     "axios": "^1.12.2",

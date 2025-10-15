@@ -25,7 +25,6 @@ export const AppInput = ({
       secureTextEntry={secureTextEntry}
       value={value}
       onChangeText={onChangeText}
-      borderColor="$primary"
       borderWidth={1}
       px={3}
       py={2}

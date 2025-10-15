@@ -37,7 +37,7 @@ apiClient.interceptors.response.use(
 async function getToken() {
   try {
     const token = await AsyncStorage.getItem("token");
-    return token;
+    return token ? JSON.parse(token) : null;
   } catch (e) {
     return null;
   }

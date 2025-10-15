@@ -3,12 +3,15 @@ export const ENDPOINTS = {
     login: "/auth/signin",
     register: "/auth/signup",
   },
-  user: {
+  users: {
     profile: "/user/profile",
     update: "/user/update",
   },
-  posts: {
-    all: "/posts",
+  expenses: {
+    all: (accountId: number) => `/expenses?accountId=${accountId}`,
     create: "/posts",
+  },
+  accounts: {
+    all: "/accounts",
   },
 };

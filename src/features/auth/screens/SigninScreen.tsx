@@ -48,8 +48,7 @@ export default function SigninScreen({ navigation }: any) {
       />
 
       <Button
-        background="$primary"
-        color="white"
+        width={150}
         mt={4}
         onPress={() => onSignin.mutate({ email, password })}
       >
@@ -57,24 +56,13 @@ export default function SigninScreen({ navigation }: any) {
       </Button>
 
       <Button
+        width={150}
         mt={3}
         variant="outlined"
-        borderColor="$primary"
         color="$color"
         onPress={() => router.push("/auth/signup")}
       >
         Go to Signup
-      </Button>
-
-      <Button
-        mt={6}
-        onPress={() => {
-          console.log("gonna cll this");
-          alert("haha");
-          toggleTheme();
-        }}
-      >
-        Toggle Theme
       </Button>
     </Stack>
   );
