@@ -10,7 +10,6 @@ interface AppBottomSheetProps extends Partial<BottomSheetProps> {
   snapPoints?: string[] | number[];
   children: React.ReactNode;
   onClose?: () => void;
-  fixedHeight?: number;
 }
 
 export const AppBottomSheet = forwardRef<BottomSheet, AppBottomSheetProps>(
@@ -23,9 +22,9 @@ export const AppBottomSheet = forwardRef<BottomSheet, AppBottomSheetProps>(
     // memoize snap points
     const memoSnapPoints = useMemo(() => {
       // Example: 300px fixed height
-      if (props.fixedHeight) return [props.fixedHeight];
+
       return snapPoints;
-    }, [snapPoints, props.fixedHeight]);
+    }, [snapPoints]);
 
     const handleClose = useCallback(() => {
       if (onClose) onClose();
@@ -40,7 +39,7 @@ export const AppBottomSheet = forwardRef<BottomSheet, AppBottomSheetProps>(
         onClose={handleClose}
         {...props}
       >
-        <BottomSheetView style={styles.content}>{children}</BottomSheetView>
+        {children}
       </BottomSheet>
     );
   }

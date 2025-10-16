@@ -3,34 +3,23 @@ import React, { useState, useLayoutEffect, useRef, useCallback } from "react";
 import { useNavigation } from "expo-router";
 
 import { getHeaderConfig } from "@/src/shared/services/header.service";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import { AppBottomSheet } from "@/src/shared/components/bottom-sheet";
 import { useGet } from "@/src/shared/hooks/useApi";
 import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
 import { List } from "react-native-paper";
+import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
+import { PaperIconButton } from "@/src/shared/components/icon-button";
+import { Text } from "react-native-paper";
 
 export default function DashboardScreen() {
   const navigation = useNavigation();
-  const [sheetOpen, setSheetOpen] = useState(false);
   const sheetRef = useRef<any>(null);
-  const accounts1 = useGet<{ title: string }[]>(
+  const accounts = useGet<{ title: string }[]>(
     ["account-list"],
     ENDPOINTS.accounts.all(1)
   );
-  const accounts = {
-    data: [
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-      { title: "1" },
-    ],
-  };
+
   // Configure header
   useLayoutEffect(() => {
     const config = getHeaderConfig("index", {
@@ -65,35 +54,32 @@ export default function DashboardScreen() {
     <>
       <Text>Welcome to the Dashboard!</Text>
       <AppBottomSheet
-        ref={sheetRef}
-        onClose={() => console.log("Sheet closed")}
-        footerComponent={() => (
+        handleComponent={() => (
           <View
             style={{
-              borderTopWidth: 1,
-              borderColor: "#ddd",
-              backgroundColor: "white",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <TouchableOpacity>
-              <List.Item
-                title="Add Account"
-                left={(props) => <List.Icon {...props} icon="folder" />}
-              />
-            </TouchableOpacity>
+            <View />
+            <Text>Switch Account</Text>
+            <PaperIconButton
+              icon="plus-circle"
+              onPress={() => alert("add account")}
+            />
           </View>
         )}
+        ref={sheetRef}
+        onClose={() => console.log("Sheet closed")}
+        maxDynamicContentSize={400}
       >
-        <View style={{ flex: 1 }}>
-          {/* Scrollable content */}
-          <FlatList
-            data={accounts1.data as []}
-            renderItem={_renderAccounts}
-            keyExtractor={(item, index) => String(index)}
-            contentContainerStyle={{ paddingBottom: 60 }} // space for button
-            style={{ flex: 1 }}
-          />
-        </View>
+        <BottomSheetFlashList
+          data={accounts.data as []}
+          renderItem={_renderAccounts}
+          keyExtractor={(item: any, index: number) => String(item + index)}
+          contentContainerStyle={{ paddingBottom: 60 }} // space for button
+        />
       </AppBottomSheet>
     </>
   );
