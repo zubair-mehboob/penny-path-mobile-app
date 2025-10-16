@@ -3,11 +3,11 @@ import { getHeaderConfig } from "@/src/shared/services/header.service";
 import { useSegments } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { View } from "react-native";
+
 export default function DrawerLayout() {
   const segments = useSegments();
   const routeName = segments?.[segments.length - 1] as any; // current route
   const header = getHeaderConfig(routeName);
-  console.log("Current route segments:", segments, routeName);
   return (
     <Drawer
       screenOptions={{

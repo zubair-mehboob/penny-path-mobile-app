@@ -8,7 +8,7 @@ import {
   customDarkTheme,
 } from "@/src/shared/theme/paper-theme";
 import { PaperProvider } from "react-native-paper";
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
@@ -19,7 +19,9 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <SafeAreaView style={{ flex: 1 }}>
-            <Slot />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Slot />
+            </GestureHandlerRootView>
           </SafeAreaView>
         </AuthProvider>
       </QueryClientProvider>

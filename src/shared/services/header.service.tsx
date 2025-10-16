@@ -1,6 +1,7 @@
 // src/shared/services/header-service.ts
 import { ReactNode } from "react";
 import { TouchableOpacity, Text } from "react-native";
+import { PaperIconButton } from "../components/icon-button";
 
 export type HeaderAction = {
   key: string;
@@ -13,7 +14,7 @@ export type HeaderConfig = {
   customHeader?: ReactNode;
 };
 
-export type RouteName = "index" | "expense" | "settings" | "(protected)";
+export type RouteName = "index" | "expense" | "settings";
 
 type HeaderServiceParams = {
   openSheet?: () => void;
@@ -24,17 +25,6 @@ export const getHeaderConfig = (
   params?: HeaderServiceParams
 ): HeaderConfig => {
   switch (routeName) {
-    case "(protected)":
-      return {
-        title: "Dashboard",
-        actions: [
-          {
-            key: "openSheet",
-            element: <Text>Hello</Text>,
-          },
-        ],
-      };
-
     case "expense":
       return {
         title: "Expenses",
@@ -70,7 +60,12 @@ export const getHeaderConfig = (
         actions: [
           {
             key: "openSheet",
-            element: <Text>Hello</Text>,
+            element: (
+              <PaperIconButton
+                icon="account"
+                onPress={() => params?.openSheet && params.openSheet()}
+              />
+            ),
           },
         ],
       };

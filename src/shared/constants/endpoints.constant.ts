@@ -12,6 +12,6 @@ export const ENDPOINTS = {
     create: "/posts",
   },
   accounts: {
-    all: "/accounts",
+    all: (userId: number) => `/accounts?userId=${userId}`,
   },
 };
