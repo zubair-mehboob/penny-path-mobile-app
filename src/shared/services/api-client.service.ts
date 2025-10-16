@@ -1,7 +1,9 @@
 // src/api/apiClient.ts
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import axios from "axios";
 import { BASE_URL } from "../constants/config";
+import { navigateToLogin } from "./navigation.service";
+import { storageService } from "./storage.service";
 
 const apiClient = axios.create({
   baseURL: `${BASE_URL}`, // adjust if your NestJS routes start with /api
@@ -14,10 +16,12 @@ const apiClient = axios.create({
 // ✅ Automatically attach token
 apiClient.interceptors.request.use(
   async (config) => {
-    const token = await getToken(); // function to get token (you’ll define it)
+    console.log("from request interceptor");
+    const token = storageService.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log({ token, h: config.headers }, "ye to ra token bhai");
     return config;
   },
   (error) => Promise.reject(error)
@@ -28,19 +32,11 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.warn("Unauthorized — redirect to login");
+      console.warn("Unauthorized — redirect to login", { error });
+      //navigateToLogin();
     }
     return Promise.reject(error);
   }
 );
-
-async function getToken() {
-  try {
-    const token = await AsyncStorage.getItem("token");
-    return token ? JSON.parse(token) : null;
-  } catch (e) {
-    return null;
-  }
-}
 
 export default apiClient;

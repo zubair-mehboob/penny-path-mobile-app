@@ -1,5 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
+import { storageService } from "@/src/shared/services/storage.service";
+
+import { router, useRootNavigationState } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 type User = {
   name: string;
@@ -26,30 +27,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const rootNavigationState = useRootNavigationState();
   const login = async (token: string, user: User) => {
+    console.log({ user, token });
     setUser(user);
     setToken(token);
-    await AsyncStorage.setItem("user", JSON.stringify(user));
-    await AsyncStorage.setItem("toekn", JSON.stringify(token));
-    router.replace("/(protected)/(tabs)/dashboard");
+
+    storageService.set("user", user);
+    storageService.set("token", token);
+    const t = storageService.get("token");
+    router.replace("/(protected)/dashboard");
   };
   const logout = async () => {
     setUser(null);
-    await AsyncStorage.removeItem("user");
+    setToken(null);
+    storageService.removeAll();
     router.replace("/auth/signin");
   };
-  useEffect(() => {
-    const checkAuth = async () => {
-      const storedUser = await AsyncStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-        router.replace("/(protected)/(tabs)/dashboard");
-      } else {
-        router.replace("/auth/signin");
-      }
-    };
-    checkAuth();
-  }, []);
   const value = { login, logout, token, user, isLoading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

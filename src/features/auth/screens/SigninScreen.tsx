@@ -5,7 +5,7 @@ import { usePost } from "@/src/shared/hooks/useApi";
 import { useThemeService } from "@/src/shared/hooks/useThemeService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Button, Stack, Text } from "tamagui";
+import { Button, Stack, Text, Spinner } from "tamagui";
 import { useAuth } from "../context/AuthContex";
 export default function SigninScreen({ navigation }: any) {
   const { toggleTheme } = useThemeService();
@@ -18,7 +18,12 @@ export default function SigninScreen({ navigation }: any) {
     { email: string; password: string } // dto
   >(ENDPOINTS.auth.login, {
     onSuccess: (res) => {
-      login(res.jwt, { email: res.email, name: res.name, userId: res.userId });
+      console.log({ res }, "from api");
+      login(res.jwt, {
+        email: res.email,
+        name: res.name,
+        userId: res.userId,
+      });
     },
   });
   return (
@@ -50,7 +55,10 @@ export default function SigninScreen({ navigation }: any) {
       <Button
         width={150}
         mt={4}
-        onPress={() => onSignin.mutate({ email, password })}
+        onPress={() => {
+          console.log("signin function getting called");
+          onSignin.mutate({ email, password });
+        }}
       >
         Login
       </Button>
@@ -64,6 +72,7 @@ export default function SigninScreen({ navigation }: any) {
       >
         Go to Signup
       </Button>
+      {onSignin.isPending && <Spinner color={"$color"} />}
     </Stack>
   );
 }

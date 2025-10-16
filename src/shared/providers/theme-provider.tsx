@@ -1,5 +1,5 @@
 // src/providers/ThemeProvider.tsx
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import React, {
   createContext,
   useCallback,
@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { TamaguiProvider, Theme } from "tamagui";
 import { config } from "../../../tamagui.config";
+import { storageService } from "../services/storage.service";
 
 type ThemeType = "light" | "dark";
 
@@ -29,18 +30,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Load persisted theme from storage
   useEffect(() => {
-    AsyncStorage.getItem("app-theme").then((storedTheme) => {
-      if (storedTheme === "light" || storedTheme === "dark") {
-        setTheme(storedTheme);
-      }
-    });
+    const theme = storageService.get("theme");
+    setTheme(theme);
   }, []);
 
   // Toggle and save theme
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
-      AsyncStorage.setItem("app-theme", next);
+      storageService.set("theme", next);
       return next;
     });
   }, []);

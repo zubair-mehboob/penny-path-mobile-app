@@ -3,10 +3,11 @@ import { Drawer } from "expo-router/drawer";
 export default function DrawerLayout() {
   return (
     <Drawer
-      screenOptions={{ headerTitle: "" }}
+      screenOptions={{}}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="(tabs)" options={{ title: "Dashboard" }} />
+      <Drawer.Screen name="dashboard" options={{ title: "Dashboard" }} />
+      <Drawer.Screen name="expense" options={{ title: "Expense" }} />
       <Drawer.Screen name="settings" options={{ title: "Settings" }} />
     </Drawer>
   );
