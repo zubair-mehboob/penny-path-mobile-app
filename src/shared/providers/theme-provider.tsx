@@ -1,56 +1,20 @@
-// src/providers/ThemeProvider.tsx
+import React, { createContext, useState, useContext, ReactNode } from "react";
+import { PaperProvider } from "react-native-paper";
+import { customDarkTheme, customLightTheme } from "../theme/paper-theme";
 
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { TamaguiProvider, Theme } from "tamagui";
-import { PortalProvider } from "@tamagui/portal";
-import { config } from "../../../tamagui.config";
-import { storageService } from "../services/storage.service";
+const ThemeContext = createContext({ toggleTheme: () => {} });
 
-type ThemeType = "light" | "dark";
+export const usePaperTheme = () => useContext(ThemeContext);
 
-interface ThemeContextValue {
-  theme: ThemeType;
-  toggleTheme: () => void;
-}
+export const PaperThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [isDark, setIsDark] = useState(false);
+  const theme = isDark ? customDarkTheme : customLightTheme;
 
-export const ThemeContext = createContext<ThemeContextValue>({
-  theme: "light",
-  toggleTheme: () => {},
-});
-
-export const useThemeContext = () => useContext(ThemeContext);
-
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<ThemeType>("light");
-
-  // Load persisted theme from storage
-  useEffect(() => {
-    const theme = storageService.get("theme");
-    setTheme(theme);
-  }, []);
-
-  // Toggle and save theme
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => {
-      const next = prev === "light" ? "dark" : "light";
-      storageService.set("theme", next);
-      return next;
-    });
-  }, []);
+  const toggleTheme = () => setIsDark((prev) => !prev);
 
   return (
-    <TamaguiProvider config={config} defaultTheme={theme}>
-      <PortalProvider>
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-          <Theme name={theme}>{children}</Theme>
-        </ThemeContext.Provider>
-      </PortalProvider>
-    </TamaguiProvider>
+    <ThemeContext.Provider value={{ toggleTheme }}>
+      <PaperProvider theme={theme}>{children}</PaperProvider>
+    </ThemeContext.Provider>
   );
 };

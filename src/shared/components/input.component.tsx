@@ -1,36 +1,59 @@
-// src/components/AuthInput.tsx
-import { Input, Label, Stack } from "tamagui";
+// src/shared/components/Input.tsx
+import React, { useState } from "react";
+import { StyleProp, ViewStyle } from "react-native";
+import {
+  TextInputProps,
+  TextInput,
+  useTheme,
+  HelperText,
+} from "react-native-paper";
 
-interface AppInputProps {
+type InputProps = TextInputProps & {
   label: string;
-  placeholder?: string;
-  secureTextEntry?: boolean;
   value: string;
   onChangeText: (text: string) => void;
-}
+  error?: string | boolean;
+  style?: StyleProp<ViewStyle>;
+  isPassword?: boolean; // toggle for password fields
+};
 
-export const AppInput = ({
+export const Input: React.FC<InputProps> = ({
   label,
-  placeholder,
-  secureTextEntry,
   value,
   onChangeText,
-}: AppInputProps) => (
-  <Stack mb={4}>
-    <Label color="$color" mb={1}>
-      {label}
-    </Label>
-    <Input
-      placeholder={placeholder}
-      secureTextEntry={secureTextEntry}
-      value={value}
-      onChangeText={onChangeText}
-      borderWidth={1}
-      px={3}
-      py={2}
-      b={4}
-      width={200}
-      color="$color"
-    />
-  </Stack>
-);
+  error,
+  style,
+  isPassword = false,
+  ...rest
+}) => {
+  const theme = useTheme();
+  const [secure, setSecure] = useState(isPassword);
+
+  return (
+    <>
+      <TextInput
+        label={label}
+        value={value}
+        onChangeText={onChangeText}
+        mode="outlined"
+        style={style}
+        error={!!error}
+        secureTextEntry={secure}
+        right={
+          isPassword ? (
+            <TextInput.Icon
+              icon={secure ? "eye" : "eye-off"}
+              onPress={() => setSecure((prev) => !prev)}
+            />
+          ) : undefined
+        }
+        {...rest}
+      />
+      {error && typeof error === "string" && (
+        <HelperText type="error" visible={true}>
+          {error}
+        </HelperText>
+      )}
+    </>
+  );
+};

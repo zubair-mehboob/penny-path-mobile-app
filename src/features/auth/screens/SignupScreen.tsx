@@ -1,64 +1,12 @@
 // src/screens/SignupScreen.tsx
-import { AppInput } from "@/src/shared/components/input.component";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Button, Stack, Text } from "tamagui";
+import { Text } from "react-native";
 
 export default function SignupScreen({ navigation }: any) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  return (
-    <Stack
-      flex={1}
-      justify="center"
-      items="center"
-      background="$background"
-      p="$5"
-    >
-      <Text fontSize={28} fontWeight="700" color="$color" mb="$5">
-        Sign Up
-      </Text>
-
-      <AppInput
-        label="Name"
-        value={name}
-        onChangeText={setName}
-        placeholder="Enter name"
-      />
-      <AppInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter email"
-      />
-      <AppInput
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter password"
-        secureTextEntry
-      />
-
-      <Button
-        background="$primary"
-        color="white"
-        mt="$4"
-        onPress={() => alert("Account Created!")}
-      >
-        Create Account
-      </Button>
-
-      <Button
-        mt="$3"
-        variant="outlined"
-        borderColor="$primary"
-        color="$color"
-        onPress={() => router.back()}
-      >
-        Back to Login
-      </Button>
-    </Stack>
-  );
+  return <Text>Signup</Text>;
 }

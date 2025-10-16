@@ -1,7 +1,6 @@
 // src/shared/services/header-service.ts
 import { ReactNode } from "react";
 import { TouchableOpacity, Text } from "react-native";
-import Icon from "../components/AppIcon";
 
 export type HeaderAction = {
   key: string;
@@ -31,14 +30,7 @@ export const getHeaderConfig = (
         actions: [
           {
             key: "openSheet",
-            element: (
-              <Icon
-                name="User"
-                size={20}
-                pressable
-                onPress={params?.openSheet}
-              />
-            ),
+            element: <Text>Hello</Text>,
           },
         ],
       };
@@ -78,14 +70,7 @@ export const getHeaderConfig = (
         actions: [
           {
             key: "openSheet",
-            element: (
-              <Icon
-                name="User"
-                size={20}
-                pressable
-                onPress={params?.openSheet}
-              />
-            ),
+            element: <Text>Hello</Text>,
           },
         ],
       };

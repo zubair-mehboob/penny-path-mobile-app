@@ -17,11 +17,7 @@
     "@react-navigation/drawer": "^7.5.9",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
-    "@tamagui/config": "^1.135.2",
-    "@tamagui/create-themes": "^1.121.12",
-    "@tamagui/lucide-icons": "^1.135.2",
-    "@tamagui/portal": "^1.135.2",
-    "@tamagui/themes": "^1.135.2",
+    
     "@tanstack/react-query": "^5.90.2",
     "axios": "^1.12.2",
     "expo": "~54.0.13",
@@ -36,19 +32,20 @@
     "expo-symbols": "~1.0.7",
     "expo-system-ui": "~6.0.7",
     "expo-web-browser": "~15.0.8",
-    "lucide-react": "^0.545.0",
-    "lucide-react-native": "^0.545.0",
+    
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
     "react-native-gesture-handler": "~2.28.0",
+    "react-native-paper": "^5.14.5",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
+    "react-native-vector-icons": "^10.3.0",
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
-    "rxjs": "^7.8.2",
-    "tamagui": "^1.135.2"
+    "rxjs": "^7.8.2"
+    
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
