@@ -21,7 +21,7 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log({ token, h: config.headers }, "ye to ra token bhai");
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -33,7 +33,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.warn("Unauthorized — redirect to login", { error });
-      //navigateToLogin();
+      navigateToLogin();
     }
     return Promise.reject(error);
   }

@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { TamaguiProvider, Theme } from "tamagui";
+import { PortalProvider } from "@tamagui/portal";
 import { config } from "../../../tamagui.config";
 import { storageService } from "../services/storage.service";
 
@@ -44,10 +45,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <TamaguiProvider config={config} defaultTheme={theme}>
-        <Theme name={theme}>{children}</Theme>
-      </TamaguiProvider>
-    </ThemeContext.Provider>
+    <TamaguiProvider config={config} defaultTheme={theme}>
+      <PortalProvider>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+          <Theme name={theme}>{children}</Theme>
+        </ThemeContext.Provider>
+      </PortalProvider>
+    </TamaguiProvider>
   );
 };
