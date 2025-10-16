@@ -36,13 +36,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     storageService.set("user", user);
     storageService.set("token", token);
     const t = storageService.get("token");
-    router.replace("/(protected)/dashboard");
+    router.replace("/(protected)");
   };
   const logout = async () => {
     setUser(null);
     setToken(null);
     storageService.removeAll();
-    router.replace("/auth/signin");
+    router.replace("/auth");
   };
   const value = { login, logout, token, user, isLoading };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

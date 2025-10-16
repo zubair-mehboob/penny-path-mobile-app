@@ -8,6 +8,6 @@ export function setRouter(ref: Router) {
 
 export function navigateToLogin() {
   if (routerRef) {
-    routerRef.replace("/auth/signin"); // adjust path
+    routerRef.replace("/auth"); // adjust path
   }
 }
