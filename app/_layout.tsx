@@ -10,6 +10,7 @@ import {
 import { PaperProvider } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HeaderProvider } from "@/src/shared/providers/header-provider";
+
 const queryClient = new QueryClient();
 
 export default function RootLayout() {

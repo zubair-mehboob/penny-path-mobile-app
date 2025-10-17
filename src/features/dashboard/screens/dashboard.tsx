@@ -4,7 +4,7 @@ import { useColorScheme, View } from "react-native";
 import { AppBottomSheet } from "@/src/shared/components/bottom-sheet";
 import { useGet } from "@/src/shared/hooks/useApi";
 import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
-import { List, useTheme } from "react-native-paper";
+import { List, RadioButton, useTheme } from "react-native-paper";
 import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
 import { PaperIconButton } from "@/src/shared/components/icon-button";
 import { Text } from "react-native-paper";
@@ -58,8 +58,23 @@ export default function DashboardScreen() {
       return (
         <List.Section>
           <List.Item
+            key={item.userId}
             title={item.title}
-            right={(props) => <List.Icon {...props} icon="folder" />}
+            //description={item.description}
+            left={() => (
+              <RadioButton
+                value={item.userId.toString()}
+                // status={selected === item.id ? "checked" : "unchecked"}
+                onPress={() => null}
+                color={colors.primary}
+              />
+            )}
+            right={() => (
+              <View style={{ flexDirection: "row" }}>
+                <PaperIconButton icon="pencil" size={20} onPress={() => null} />
+                <PaperIconButton icon="delete" size={20} onPress={() => null} />
+              </View>
+            )}
           />
         </List.Section>
       );
@@ -100,20 +115,7 @@ export default function DashboardScreen() {
           contentContainerStyle={{ paddingBottom: 60 }} // space for button
         />
       </AppBottomSheet>
-      {/* <AppModal
-        visible={visible}
-        title="Confirm Action"
-        content={<Text>Are you sure you want to continue?</Text>}
-        onDismiss={() => setVisible(false)}
-        // actions={[
-        //   { label: "Cancel", onPress: () => setVisible(false) },
-        //   {
-        //     label: "Confirm",
-        //     onPress: () => console.log("Confirmed"),
-        //     mode: "contained",
-        //   },
-        // ]}
-      /> */}
+
       <AccountDetailsModal
         visible={visible}
         data={account}
