@@ -1,6 +1,7 @@
 import React from "react";
 import { IconButton as PaperButton, useTheme } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { PaperIcon } from "./icon";
 
 type MaterialCommunityIconName = keyof typeof MaterialCommunityIcons.glyphMap;
 
@@ -26,7 +27,7 @@ export const PaperIconButton: React.FC<PaperIconButtonProps> = ({
   return (
     <PaperButton
       icon={() => (
-        <MaterialCommunityIcons
+        <PaperIcon
           name={icon}
           size={size}
           color={color || theme.colors.primary}

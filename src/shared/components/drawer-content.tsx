@@ -1,35 +1,16 @@
-// import { useAuth } from "@/src/features/auth/context/AuthContex";
-// import {
-//   DrawerContentScrollView,
-//   DrawerItemList,
-//   DrawerItem,
-// } from "@react-navigation/drawer";
-
-// export function CustomDrawerContent(props: any) {
-//   const { logout } = useAuth();
-
-//   return (
-//     <DrawerContentScrollView {...props}>
-//       <DrawerItemList {...props} />
-
-//       {/* Custom Logout button */}
-//       <DrawerItem label="Logout" onPress={logout} />
-//     </DrawerContentScrollView>
-//   );
-// }
 import { View } from "react-native";
 import { Drawer as PaperDrawer, useTheme } from "react-native-paper";
 import { useAuth } from "@/src/features/auth/context/AuthContex";
 import { useSegments } from "expo-router";
 import { MaterialCommunityIconName, PaperIcon } from "./icon";
-import { PaperIconButton } from "./icon-button";
+import { globalStyles } from "../styles/gloabl-styles";
 
 export function CustomDrawerContent(props: any) {
   const { logout } = useAuth();
   const segments = useSegments();
   const routeName = segments[segments.length - 1];
   const { colors } = useTheme();
-
+  const styles = globalStyles(colors);
   const drawerItems: {
     label: string;
     route: string;
@@ -41,7 +22,7 @@ export function CustomDrawerContent(props: any) {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.onPrimary }}>
+    <View style={styles.primaryContainer}>
       <PaperDrawer.Section>
         {drawerItems.map((item) => (
           <PaperDrawer.Item

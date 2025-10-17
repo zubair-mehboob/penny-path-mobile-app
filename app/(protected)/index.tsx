@@ -1,5 +1,5 @@
-import DashboardScreen from "@/src/features/home/screens/dashboard";
-import { Text, View } from "react-native";
+import DashboardScreen from "@/src/features/dashboard/screens/dashboard";
+
 export default function DashboardPage() {
   return <DashboardScreen />;
 }

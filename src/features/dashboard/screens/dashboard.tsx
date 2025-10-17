@@ -1,42 +1,48 @@
 // app/(protected)/index.tsx or dashboard.tsx
-import React, { useState, useLayoutEffect, useRef, useCallback } from "react";
-import { useNavigation } from "expo-router";
-
-import { getHeaderConfig } from "@/src/shared/services/header.service";
-import { View } from "react-native";
+import React, { useRef, useCallback, useEffect } from "react";
+import { useColorScheme, View } from "react-native";
 import { AppBottomSheet } from "@/src/shared/components/bottom-sheet";
 import { useGet } from "@/src/shared/hooks/useApi";
 import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
-import { List } from "react-native-paper";
+import { List, useTheme } from "react-native-paper";
 import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
 import { PaperIconButton } from "@/src/shared/components/icon-button";
 import { Text } from "react-native-paper";
+import { globalStyles } from "@/src/shared/styles/gloabl-styles";
+import { useHeader } from "@/src/shared/providers/header-provider";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function DashboardScreen() {
-  const navigation = useNavigation();
   const sheetRef = useRef<any>(null);
   const accounts = useGet<{ title: string }[]>(
     ["account-list"],
     ENDPOINTS.accounts.all(1)
   );
+  const { colors } = useTheme();
+  const styles = globalStyles(colors);
+  const { setHeader } = useHeader();
+  const colorScheme = useColorScheme();
 
-  // Configure header
-  useLayoutEffect(() => {
-    const config = getHeaderConfig("index", {
-      openSheet: () => sheetRef.current?.expand(),
-    });
+  useFocusEffect(
+    React.useCallback(() => {
+      setHeader({
+        title: "Dashboard",
+        actions: [
+          {
+            key: "add",
+            element: (
+              <PaperIconButton
+                icon="account"
+                onPress={() => sheetRef.current?.expand()}
+                color={styles.headerIcon.color}
+              />
+            ),
+          },
+        ],
+      });
+    }, [colorScheme])
+  );
 
-    navigation.setOptions({
-      title: config.title,
-      headerRight: () => (
-        <>
-          {config.actions?.map((action) => (
-            <React.Fragment key={action.key}>{action.element}</React.Fragment>
-          ))}
-        </>
-      ),
-    });
-  }, [navigation]);
   const _renderAccounts = useCallback(
     ({ item, index }: { item: any; index: number }) => {
       return (
@@ -52,7 +58,9 @@ export default function DashboardScreen() {
   );
   return (
     <>
-      <Text>Welcome to the Dashboard!</Text>
+      <View style={styles.container}>
+        <Text>Welcome to the Dashboard!</Text>
+      </View>
       <AppBottomSheet
         handleComponent={() => (
           <View
@@ -63,10 +71,11 @@ export default function DashboardScreen() {
             }}
           >
             <View />
-            <Text>Switch Account</Text>
+            <Text style={styles.bottomSheetTitle}>Switch Account</Text>
             <PaperIconButton
               icon="plus-circle"
               onPress={() => alert("add account")}
+              color={styles.bottomSheetIcon.color}
             />
           </View>
         )}
