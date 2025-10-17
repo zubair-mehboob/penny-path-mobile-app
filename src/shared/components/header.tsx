@@ -1,14 +1,13 @@
 // src/shared/components/CustomHeader.tsx
 import React from "react";
-import { View, Text } from "react-native";
-import { useTheme, IconButton } from "react-native-paper";
+import { Text, View } from "react-native";
+import { IconButton, useTheme } from "react-native-paper";
 import { globalStyles } from "../styles/gloabl-styles";
 
 import { useHeader } from "../providers/header-provider";
 
 interface CustomHeaderProps {
   title?: string;
-  actions?: { key: string; element: React.ReactNode }[];
   onMenuPress?: () => void;
 }
 
@@ -23,12 +22,14 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerLeft}>
-        {onMenuPress && (
+        {!header.rightAction && onMenuPress ? (
           <IconButton
             icon="menu"
             iconColor={styles.headerIcon.color}
             onPress={onMenuPress}
           />
+        ) : (
+          header.rightAction
         )}
         <Text style={styles.headerTitle}>{header.title || title}</Text>
       </View>

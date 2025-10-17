@@ -7,9 +7,11 @@ export const ENDPOINTS = {
     profile: "/user/profile",
     update: "/user/update",
   },
-  expenses: {
-    all: (accountId: number) => `/expenses?accountId=${accountId}`,
-    create: "/posts",
+  transactions: {
+    all: (accountId: number) => `/transactions?accountId=${accountId}`,
+    create: "/transactions",
+    getById: (id: number) => `/transactions/${id}`,
+    splitTransaction: `/add-child-expense`,
   },
   accounts: {
     all: (userId: number) => `/accounts?userId=${userId}`,

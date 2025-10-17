@@ -1,9 +1,9 @@
+import { useAuth } from "@/src/features/auth/context/AuthContex";
+import { MaterialCommunityIcons as PaperIcon } from "@expo/vector-icons";
+import { useSegments } from "expo-router";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Drawer as PaperDrawer, Text, useTheme } from "react-native-paper";
-import { useSegments } from "expo-router";
-import { MaterialCommunityIcons as PaperIcon } from "@expo/vector-icons";
-import { useAuth } from "@/src/features/auth/context/AuthContex";
 import { globalStyles } from "../styles/gloabl-styles";
 
 export function CustomDrawerContent(props: any) {
@@ -19,7 +19,7 @@ export function CustomDrawerContent(props: any) {
     icon: keyof typeof PaperIcon.glyphMap;
   }[] = [
     { label: "Dashboard", route: "index", icon: "view-dashboard" },
-    { label: "Expense", route: "expense", icon: "cash-100" },
+    { label: "Transactions", route: "transaction", icon: "cash-100" },
     { label: "Settings", route: "settings", icon: "application-settings" },
   ];
 

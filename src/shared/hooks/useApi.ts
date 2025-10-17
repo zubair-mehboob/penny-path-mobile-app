@@ -1,39 +1,76 @@
-// src/api/useApi.ts
 import {
   useMutation,
   UseMutationOptions,
   useQuery,
   UseQueryOptions,
 } from "@tanstack/react-query";
-import apiClient from "../services/api-client.service";
 
-// ✅ Type-safe GET
+/**
+ * ✅ Generic GET Hook
+ * Accepts a `queryKey` and a fetcher function.
+ */
 export const useGet = <TData>(
   key: string[],
-  url: string,
+  fetcher: () => Promise<TData>,
   options?: Omit<UseQueryOptions<TData>, "queryKey" | "queryFn">
 ) => {
   return useQuery<TData>({
     queryKey: key,
-    queryFn: async () => {
-      const { data } = await apiClient.get<TData>(url);
-      return data;
-    },
+    queryFn: fetcher,
     ...options,
   });
 };
 
-// ✅ Type-safe POST
+/**
+ * ✅ Generic POST Hook
+ * Accepts a function instead of a URL.
+ */
 export const usePost = <TData, TVariables>(
-  url: string,
+  mutationFn: (variables: TVariables) => Promise<TData>,
   options?: Omit<UseMutationOptions<TData, unknown, TVariables>, "mutationFn">
 ) => {
   return useMutation<TData, unknown, TVariables>({
-    mutationFn: async (body: TVariables) => {
-      console.log("reached here in usePost");
-      const { data } = await apiClient.post<TData>(url, body);
-      return data;
-    },
+    mutationFn,
+    ...options,
+  });
+};
+
+/**
+ * ✅ Generic PUT Hook
+ */
+export const usePut = <TData, TVariables>(
+  mutationFn: (variables: TVariables) => Promise<TData>,
+  options?: Omit<UseMutationOptions<TData, unknown, TVariables>, "mutationFn">
+) => {
+  return useMutation<TData, unknown, TVariables>({
+    mutationFn,
+    ...options,
+  });
+};
+
+/**
+ * ✅ Generic PATCH Hook
+ */
+export const usePatch = <TData, TVariables>(
+  mutationFn: (variables: TVariables) => Promise<TData>,
+  options?: Omit<UseMutationOptions<TData, unknown, TVariables>, "mutationFn">
+) => {
+  return useMutation<TData, unknown, TVariables>({
+    mutationFn,
+    ...options,
+  });
+};
+
+/**
+ * ✅ Generic DELETE Hook
+ * Optionally supports variables (like an ID or payload)
+ */
+export const useDelete = <TData, TVariables = unknown>(
+  mutationFn: (variables: TVariables) => Promise<TData>,
+  options?: Omit<UseMutationOptions<TData, unknown, TVariables>, "mutationFn">
+) => {
+  return useMutation<TData, unknown, TVariables>({
+    mutationFn,
     ...options,
   });
 };
