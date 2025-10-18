@@ -9,6 +9,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { List, Text, useTheme } from "react-native-paper";
 import { fetchTransactions } from "../api/transactions";
+import { PaperIcon } from "@/src/shared/components/icon";
+import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
+import { PaperIconButton } from "@/src/shared/components/icon-button";
 
 export default function TransactionList() {
   const router = useRouter();
@@ -19,7 +22,17 @@ export default function TransactionList() {
     React.useCallback(() => {
       setHeader({
         title: "Transactions",
-        actions: [],
+        actions: [
+          {
+            key: "add",
+            element: (
+              <PaperIconButton
+                icon="plus"
+                onPress={() => router.push("/(protected)/transaction/create")}
+              />
+            ),
+          },
+        ],
       });
     }, [])
   );
@@ -38,11 +51,19 @@ export default function TransactionList() {
     <View style={styles.container}>
       <FlatList
         data={transactions.data as []}
-        renderItem={({ item }: { item: { title: string } }) => (
+        renderItem={({ item }: { item: ITransaction }) => (
           <List.Section style={styles.list}>
             <List.Item
               title={item.title}
-              onPress={() => router.push("/transaction/create")}
+              description={item.date.toString()}
+              onPress={() =>
+                router.push(`/(protected)/transaction/${item.transactionId}`)
+              }
+              right={() => {
+                return (
+                  <PaperIcon name="chevron-right" color={styles.list.color} />
+                );
+              }}
             />
           </List.Section>
         )}

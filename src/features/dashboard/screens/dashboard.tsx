@@ -13,6 +13,8 @@ import { useHeader } from "@/src/shared/providers/header-provider";
 import { useFocusEffect } from "@react-navigation/native";
 import { AppModal } from "@/src/shared/components/modal";
 import { AccountDetailsModal } from "../components/add-account";
+import { fetchAccounts } from "../api/account";
+import { IAccount } from "@/src/shared/dtos/response/account.dto";
 
 export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
@@ -24,10 +26,8 @@ export default function DashboardScreen() {
     userId: 1,
   });
   const sheetRef = useRef<any>(null);
-  const accounts = useGet<{ title: string }[]>(
-    ["account-list"],
-    ENDPOINTS.accounts.all(1)
-  );
+  const accounts = useGet<IAccount[]>(["account-list"], () => fetchAccounts(1));
+  console.log({ accounts });
   const { colors } = useTheme();
   const styles = globalStyles(colors);
   const { setHeader } = useHeader();
@@ -54,7 +54,7 @@ export default function DashboardScreen() {
   );
 
   const _renderAccounts = useCallback(
-    ({ item, index }: { item: any; index: number }) => {
+    ({ item, index }: { item: IAccount; index: number }) => {
       return (
         <List.Section>
           <List.Item

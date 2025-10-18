@@ -6,7 +6,7 @@ type HeaderAction = { key: string; element: React.ReactNode };
 interface HeaderState {
   title?: string;
   actions?: HeaderAction[];
-  rightAction?: React.ReactNode;
+  goBack?: boolean;
 }
 
 const HeaderContext = createContext({

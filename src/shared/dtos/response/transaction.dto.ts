@@ -4,5 +4,11 @@ export interface ITransaction {
   description?: string;
   date: Date;
   amount: number;
-  children: ITransaction[];
+  children: ChildTransaction[];
+}
+
+interface ChildTransaction {
+  transactionId: number;
+  title: string;
+  amount: number;
 }

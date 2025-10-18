@@ -1,9 +1,7 @@
-import { PaperIconButton } from "@/src/shared/components/icon-button";
 import { usePost } from "@/src/shared/hooks/useApi";
 import { useHeader } from "@/src/shared/providers/header-provider";
 import { globalStyles } from "@/src/shared/styles/gloabl-styles";
 import { useFocusEffect } from "@react-navigation/native";
-import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -18,10 +16,7 @@ export default function CreateTransactionScreen() {
     React.useCallback(() => {
       setHeader({
         title: "Create Transaction",
-        rightAction: (
-          <PaperIconButton icon="arrow-left" onPress={router.back} />
-        ),
-        actions: [],
+        goBack: true,
       });
     }, [])
   );

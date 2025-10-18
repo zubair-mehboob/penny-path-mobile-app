@@ -5,6 +5,8 @@ import { IconButton, useTheme } from "react-native-paper";
 import { globalStyles } from "../styles/gloabl-styles";
 
 import { useHeader } from "../providers/header-provider";
+import { PaperIconButton } from "./icon-button";
+import { useRouter } from "expo-router";
 
 interface CustomHeaderProps {
   title?: string;
@@ -18,18 +20,18 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
   const { header } = useHeader();
   const { colors } = useTheme();
   const styles = globalStyles(colors);
-
+  const router = useRouter();
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerLeft}>
-        {!header.rightAction && onMenuPress ? (
-          <IconButton
+        {!header.goBack && onMenuPress ? (
+          <PaperIconButton
             icon="menu"
-            iconColor={styles.headerIcon.color}
+            color={styles.headerIcon.color}
             onPress={onMenuPress}
           />
         ) : (
-          header.rightAction
+          <PaperIconButton icon="arrow-left" onPress={router.back} />
         )}
         <Text style={styles.headerTitle}>{header.title || title}</Text>
       </View>
