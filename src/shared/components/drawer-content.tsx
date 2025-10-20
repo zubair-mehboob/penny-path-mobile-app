@@ -1,4 +1,4 @@
-import { useAuth } from "@/src/features/auth/context/AuthContex";
+import { useAuthContext } from "@/src/features/auth/context/AuthContex";
 import { MaterialCommunityIcons as PaperIcon } from "@expo/vector-icons";
 import { useSegments } from "expo-router";
 import React from "react";
@@ -7,7 +7,7 @@ import { Drawer as PaperDrawer, Text, useTheme } from "react-native-paper";
 import { globalStyles } from "../styles/gloabl-styles";
 
 export function CustomDrawerContent(props: any) {
-  const { logout } = useAuth();
+  const { logout } = useAuthContext();
   const segments = useSegments();
   const routeName = segments[segments.length - 1];
   const { colors } = useTheme();

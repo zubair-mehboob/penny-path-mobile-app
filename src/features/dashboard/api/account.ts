@@ -11,16 +11,18 @@ import {
 import apiClient from "@/src/shared/services/api-client.service";
 
 // ✅ Get transaction by ID
-export const fetchAccounts = async (userId: number = 1) => {
-  const { data } = await apiClient.get<IAccount[]>(
-    ENDPOINTS.accounts.all(userId)
-  );
+export const fetchAccounts = async () => {
+  const { data } = await apiClient.get<IAccount[]>(ENDPOINTS.accounts.all);
   return data;
 };
-export const getTransactionById = async (id: number) => {
+export const getAccountById = async (id: number) => {
   const response = await apiClient.get<IAccount>(
-    ENDPOINTS.transactions.getById(id)
+    ENDPOINTS.accounts.getById(id)
   );
+  return response.data;
+};
+export const getDefaultAccount = async () => {
+  const response = await apiClient.get<IAccount>(ENDPOINTS.accounts.getDefault);
   return response.data;
 };
 
@@ -33,11 +35,9 @@ export const createAccount = async (data: CreateAccountDTO) => {
   return response.data;
 };
 export const setDefaultAccount = async (accountId: number) => {
-  console.log("recieve this id", accountId);
   const response = await apiClient.patch(
     ENDPOINTS.accounts.setDefault(accountId)
   );
-  console.log({ response });
   return response.data;
 };
 

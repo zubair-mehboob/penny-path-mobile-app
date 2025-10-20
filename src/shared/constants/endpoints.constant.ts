@@ -14,8 +14,10 @@ export const ENDPOINTS = {
     splitTransaction: `/add-child-expense`,
   },
   accounts: {
-    all: (userId: number) => `/accounts?userId=${userId}`,
+    all: `/accounts`,
     create: `/accounts`,
     setDefault: (accountId: number) => `/accounts/${accountId}/set-default`,
+    getDefault: `/accounts/get-default`,
+    getById: (accountId: number) => `/accounts/${accountId}`,
   },
 };

@@ -3,6 +3,7 @@ import { useRouter, useRootNavigationState } from "expo-router";
 import { storageService } from "@/src/shared/services/storage.service";
 import { Text } from "react-native";
 import { setRouter } from "@/src/shared/services/navigation.service";
+import { useGetDefaultAccount } from "@/src/features/dashboard/hooks/useAccount";
 export default function Splash() {
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();

@@ -15,7 +15,12 @@ import { AppModal } from "@/src/shared/components/modal";
 import { AccountDetailsModal } from "../components/add-account";
 import { fetchAccounts, setDefaultAccount } from "../api/account";
 import { IAccount } from "@/src/shared/dtos/response/account.dto";
-import { useGetAccounts, useSetDefaultAccount } from "../hooks/useAccount";
+import {
+  useGetAccounts,
+  useGetDefaultAccount,
+  useSetDefaultAccount,
+} from "../hooks/useAccount";
+import { storageService } from "@/src/shared/services/storage.service";
 
 export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
@@ -28,8 +33,8 @@ export default function DashboardScreen() {
     userId: 1,
   });
   const sheetRef = useRef<any>(null);
-  const accounts = useGetAccounts(1);
-  const defaultAccount = useSetDefaultAccount();
+  const accounts = useGetAccounts();
+  const setDefaultAccount = useSetDefaultAccount();
 
   const { colors } = useTheme();
   const styles = globalStyles(colors);
@@ -68,7 +73,9 @@ export default function DashboardScreen() {
               <RadioButton
                 value={item.userId.toString()}
                 status={item.isDefault ? "checked" : "unchecked"}
-                onPress={() => defaultAccount.mutate(item.accountId)}
+                onPress={() => {
+                  setDefaultAccount.mutate(item.accountId);
+                }}
                 color={colors.primary}
               />
             )}

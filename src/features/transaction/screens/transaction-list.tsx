@@ -12,6 +12,7 @@ import { fetchTransactions } from "../api/transactions";
 import { PaperIcon } from "@/src/shared/components/icon";
 import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
 import { PaperIconButton } from "@/src/shared/components/icon-button";
+import { useGetTransactions } from "../hooks/useTransaction";
 
 export default function TransactionList() {
   const router = useRouter();
@@ -38,7 +39,8 @@ export default function TransactionList() {
   );
 
   // use it in your component
-  const transactions = useGet(["transaction-list"], () => fetchTransactions(1));
+  const transactions = useGetTransactions();
+  // const transactions = useGet(["transaction-list"], () => fetchTransactions(1));
 
   if (transactions.isLoading)
     return (

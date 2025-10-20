@@ -9,6 +9,7 @@ export interface StorageSchema {
   token: string;
   user: { userId: number; name: string; email: string } | null;
   theme: "light" | "dark";
+  accountId: number | null;
 }
 
 /**
@@ -57,6 +58,7 @@ class StorageService {
       token: "",
       user: null,
       theme: "light",
+      accountId: null,
     };
   }
 
