@@ -16,7 +16,6 @@ const apiClient = axios.create({
 // ✅ Automatically attach token
 apiClient.interceptors.request.use(
   async (config) => {
-    console.log("from request interceptor");
     const token = storageService.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

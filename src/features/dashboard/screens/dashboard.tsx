@@ -2,7 +2,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import { useColorScheme, View } from "react-native";
 import { AppBottomSheet } from "@/src/shared/components/bottom-sheet";
-import { useGet } from "@/src/shared/hooks/useApi";
+import { useGet, usePatch } from "@/src/shared/hooks/useApi";
 import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
 import { List, RadioButton, useTheme } from "react-native-paper";
 import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
@@ -13,11 +13,13 @@ import { useHeader } from "@/src/shared/providers/header-provider";
 import { useFocusEffect } from "@react-navigation/native";
 import { AppModal } from "@/src/shared/components/modal";
 import { AccountDetailsModal } from "../components/add-account";
-import { fetchAccounts } from "../api/account";
+import { fetchAccounts, setDefaultAccount } from "../api/account";
 import { IAccount } from "@/src/shared/dtos/response/account.dto";
+import { useGetAccounts, useSetDefaultAccount } from "../hooks/useAccount";
 
 export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
+  const [selectedAccountId, setSelectedAccountId] = useState(0);
   const [account, setAccount] = useState({
     openingBalance: 3000000.98,
     closingBalance: 0,
@@ -26,8 +28,9 @@ export default function DashboardScreen() {
     userId: 1,
   });
   const sheetRef = useRef<any>(null);
-  const accounts = useGet<IAccount[]>(["account-list"], () => fetchAccounts(1));
-  console.log({ accounts });
+  const accounts = useGetAccounts(1);
+  const defaultAccount = useSetDefaultAccount();
+
   const { colors } = useTheme();
   const styles = globalStyles(colors);
   const { setHeader } = useHeader();
@@ -64,8 +67,8 @@ export default function DashboardScreen() {
             left={() => (
               <RadioButton
                 value={item.userId.toString()}
-                // status={selected === item.id ? "checked" : "unchecked"}
-                onPress={() => null}
+                status={item.isDefault ? "checked" : "unchecked"}
+                onPress={() => defaultAccount.mutate(item.accountId)}
                 color={colors.primary}
               />
             )}

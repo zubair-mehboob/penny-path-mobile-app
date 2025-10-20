@@ -4,7 +4,10 @@ import {
   SplitTransactionDTO,
   UpdateTransactionDTO,
 } from "@/src/shared/dtos/request/transaction.dto";
-import { IAccount } from "@/src/shared/dtos/response/account.dto";
+import {
+  CreateAccountDTO,
+  IAccount,
+} from "@/src/shared/dtos/response/account.dto";
 import apiClient from "@/src/shared/services/api-client.service";
 
 // ✅ Get transaction by ID
@@ -22,15 +25,19 @@ export const getTransactionById = async (id: number) => {
 };
 
 // ✅ Create new transaction
-export const createTransaction = async (data: CreateTransactionDTO) => {
-  const response = await apiClient.post(ENDPOINTS.transactions.create, data);
-  return response.data;
-};
-export const splitTransaction = async (data: SplitTransactionDTO) => {
-  const response = await apiClient.post(
-    ENDPOINTS.transactions.splitTransaction,
+export const createAccount = async (data: CreateAccountDTO) => {
+  const response = await apiClient.post<CreateAccountDTO>(
+    ENDPOINTS.accounts.create,
     data
   );
+  return response.data;
+};
+export const setDefaultAccount = async (accountId: number) => {
+  console.log("recieve this id", accountId);
+  const response = await apiClient.patch(
+    ENDPOINTS.accounts.setDefault(accountId)
+  );
+  console.log({ response });
   return response.data;
 };
 

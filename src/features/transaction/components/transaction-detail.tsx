@@ -54,29 +54,30 @@ export default function TransactionDetailComponent({
   ) => {
     if (formType === "create") {
       const newChild = {
-        transactionId: Date.now(),
         title: data.title,
         amount: data.amount,
       };
-      setTransaction((prev) => {
-        if (!prev) return undefined;
-        return {
-          ...prev,
-          children: [...prev.children, newChild],
-        };
-      });
+      console.log({ newChild, data });
+      //   setTransaction((prev) => {
+      //     if (!prev) return undefined;
+      //     return {
+      //       ...prev,
+      //       children: [...prev.children, newChild],
+      //     };
+      //   });
     } else if (formType === "edit" && selectedChild) {
-      setTransaction((prev) => {
-        if (!prev) return undefined;
-        return {
-          ...prev,
-          children: prev.children.map((c) =>
-            c.transactionId === selectedChild.transactionId
-              ? { ...c, ...data }
-              : c
-          ),
-        };
-      });
+      console.log({ data }, "edit case");
+      //   setTransaction((prev) => {
+      //     if (!prev) return undefined;
+      //     return {
+      //       ...prev,
+      //       children: prev.children.map((c) =>
+      //         c.transactionId === selectedChild.transactionId
+      //           ? { ...c, ...data }
+      //           : c
+      //       ),
+      //     };
+      //   });
     }
     closeModal();
   };
@@ -170,7 +171,10 @@ export default function TransactionDetailComponent({
           <Card.Content>
             <SplitTransactionsTable
               childrenData={transaction.children}
-              onEdit={(item: any) => openModal("edit", item)}
+              onEdit={(item: any) => {
+                console.log({ item }, "edit");
+                openModal("edit", item);
+              }}
               onDelete={handleDelete}
             />
           </Card.Content>

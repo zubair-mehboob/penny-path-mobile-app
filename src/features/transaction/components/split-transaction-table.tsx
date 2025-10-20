@@ -45,7 +45,9 @@ export const SplitTransactionsTable: React.FC<SplitTransactionsTableProps> = ({
                 <IconButton
                   icon="pencil"
                   size={18}
-                  onPress={() => onEdit(item)}
+                  onPress={() => {
+                    onEdit(item);
+                  }}
                 />
                 <IconButton
                   icon="delete"

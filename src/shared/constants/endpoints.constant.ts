@@ -15,5 +15,7 @@ export const ENDPOINTS = {
   },
   accounts: {
     all: (userId: number) => `/accounts?userId=${userId}`,
+    create: `/accounts`,
+    setDefault: (accountId: number) => `/accounts/${accountId}/set-default`,
   },
 };

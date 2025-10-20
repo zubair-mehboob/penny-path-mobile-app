@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const rootNavigationState = useRootNavigationState();
   const login = async (token: string, user: User) => {
-    console.log({ user, token });
     setUser(user);
     setToken(token);
 

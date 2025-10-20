@@ -28,7 +28,6 @@ export default function SigninScreen({ navigation }: any) {
   // use it in your component
   const onSignin = usePost(loginApi, {
     onSuccess: (res) => {
-      console.log({ res }, "from api");
       login(res.jwt, {
         email: res.email,
         name: res.name,
