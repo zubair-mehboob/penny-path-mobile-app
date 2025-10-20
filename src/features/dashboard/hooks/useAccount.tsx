@@ -31,7 +31,7 @@ export const useSetDefaultAccount = () => {
     },
     onSuccess: async (data: IAccount, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["accounts", "default-account"],
+        queryKey: ["accounts"],
       });
       await storageService.set("accountId", data.accountId);
     },
