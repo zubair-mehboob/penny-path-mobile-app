@@ -69,16 +69,16 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       color: colors.onSurfaceVariant,
     },
     bottomSheet: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.background,
     },
     bottomSheetIcon: {
-      color: colors.onSurfaceVariant,
+      color: colors.onBackground,
     },
     bottomSheetTitle: {
-      color: colors.onSurfaceVariant,
+      color: colors.onBackground,
     },
     drawer: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.primaryContainer,
       flex: 1,
     },
     modal: {
@@ -86,6 +86,11 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       alignSelf: "center",
       padding: 20,
       borderRadius: 16,
+    },
+    bottomTab: {
+      backgroundColor: colors.primaryContainer,
+      borderTopWidth: 0,
+      height: 60,
     },
   });
 export type GlobalStylesType = ReturnType<typeof globalStyles>;

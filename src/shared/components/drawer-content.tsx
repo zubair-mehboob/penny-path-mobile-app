@@ -17,11 +17,7 @@ export function CustomDrawerContent(props: any) {
     label: string;
     route: string;
     icon: keyof typeof PaperIcon.glyphMap;
-  }[] = [
-    { label: "Dashboard", route: "index", icon: "view-dashboard" },
-    { label: "Transactions", route: "transaction", icon: "cash-100" },
-    { label: "Settings", route: "settings", icon: "application-settings" },
-  ];
+  }[] = [{ label: "Settings", route: "index", icon: "application-settings" }];
 
   return (
     <View style={styles.drawer}>

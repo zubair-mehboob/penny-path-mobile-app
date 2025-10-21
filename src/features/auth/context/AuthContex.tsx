@@ -1,7 +1,7 @@
 import { storageService } from "@/src/shared/services/storage.service";
 
 import { router, useRootNavigationState } from "expo-router";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 export type IUser = {
   name: string;
   email: string;
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     storageService.set("user", user);
     storageService.set("token", token);
     storageService.set("accountId", accountId);
-    router.replace("/(protected)");
+    router.replace("/(protected)/(tabs)");
   };
   const logout = async () => {
     setUser(null);

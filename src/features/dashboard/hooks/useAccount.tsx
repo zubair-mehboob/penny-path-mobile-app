@@ -1,12 +1,11 @@
 import { IAccount } from "@/src/shared/dtos/response/account.dto";
-import { useGet, usePatch } from "@/src/shared/hooks/useApi";
+import { storageService } from "@/src/shared/services/storage.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   fetchAccounts,
   getDefaultAccount,
   setDefaultAccount,
 } from "../api/account";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { storageService } from "@/src/shared/services/storage.service";
 
 export const useGetAccounts = () => {
   return useQuery<IAccount[]>({
@@ -26,7 +25,6 @@ export const useSetDefaultAccount = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (accountId: number) => {
-      console.log("getting this account id to be set", { accountId });
       return setDefaultAccount(accountId);
     },
     onSuccess: async (data: IAccount, variables) => {

@@ -1,5 +1,5 @@
-import DashboardScreen from "@/src/features/dashboard/screens/dashboard";
+import SettingScreen from "@/src/features/settings/screens/SettingScreen";
 
-export default function DashboardPage() {
-  return <DashboardScreen />;
+export default function SettingsPage() {
+  return <SettingScreen />;
 }

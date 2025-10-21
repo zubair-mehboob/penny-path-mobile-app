@@ -1,17 +1,16 @@
-import { useGet } from "@/src/shared/hooks/useApi";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { FlatList, View } from "react-native";
 
+import { PaperIcon } from "@/src/shared/components/icon";
+import { PaperIconButton } from "@/src/shared/components/icon-button";
+import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
 import { useHeader } from "@/src/shared/providers/header-provider";
+import { storageService } from "@/src/shared/services/storage.service";
 import { globalStyles } from "@/src/shared/styles/gloabl-styles";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { List, Text, useTheme } from "react-native-paper";
-import { fetchTransactions } from "../api/transactions";
-import { PaperIcon } from "@/src/shared/components/icon";
-import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
-import { PaperIconButton } from "@/src/shared/components/icon-button";
 import { useGetTransactions } from "../hooks/useTransaction";
 
 export default function TransactionList() {
@@ -19,6 +18,7 @@ export default function TransactionList() {
   const { colors } = useTheme();
   const styles = globalStyles(colors);
   const { setHeader } = useHeader();
+  const accountId = storageService.get("accountId");
   useFocusEffect(
     React.useCallback(() => {
       setHeader({
@@ -29,7 +29,9 @@ export default function TransactionList() {
             element: (
               <PaperIconButton
                 icon="plus"
-                onPress={() => router.push("/(protected)/transaction/create")}
+                onPress={() =>
+                  router.push("/(protected)/(tabs)/transaction/create")
+                }
               />
             ),
           },
@@ -38,9 +40,10 @@ export default function TransactionList() {
     }, [])
   );
 
-  // use it in your component
-  const transactions = useGetTransactions();
-  // const transactions = useGet(["transaction-list"], () => fetchTransactions(1));
+  const transactions = useGetTransactions(accountId as number);
+  useEffect(() => {
+    transactions.refetch();
+  }, [accountId]);
 
   if (transactions.isLoading)
     return (
@@ -59,7 +62,9 @@ export default function TransactionList() {
               title={item.title}
               description={item.date.toString()}
               onPress={() =>
-                router.push(`/(protected)/transaction/${item.transactionId}`)
+                router.push(
+                  `/(protected)/(tabs)/transaction/${item.transactionId}`
+                )
               }
               right={() => {
                 return (
