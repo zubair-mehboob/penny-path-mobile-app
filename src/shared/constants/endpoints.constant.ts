@@ -3,12 +3,21 @@ export const ENDPOINTS = {
     login: "/auth/signin",
     register: "/auth/signup",
   },
-  user: {
+  users: {
     profile: "/user/profile",
     update: "/user/update",
   },
-  posts: {
-    all: "/posts",
-    create: "/posts",
+  transactions: {
+    all: (accountId: number) => `/transactions?accountId=${accountId}`,
+    create: "/transactions",
+    getById: (id: number) => `/transactions/${id}`,
+    splitTransaction: `/add-child-expense`,
+  },
+  accounts: {
+    all: `/accounts`,
+    create: `/accounts`,
+    setDefault: (accountId: number) => `/accounts/${accountId}/set-default`,
+    getDefault: `/accounts/get-default`,
+    getById: (accountId: number) => `/accounts/${accountId}`,
   },
 };
