@@ -1,10 +1,7 @@
 // src/shared/components/BottomSheet.tsx
+import BottomSheet, { BottomSheetProps } from "@gorhom/bottom-sheet";
 import React, { forwardRef, useCallback, useMemo, useRef } from "react";
-import { View, StyleSheet } from "react-native";
-import BottomSheet, {
-  BottomSheetProps,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
 import { globalStyles } from "../styles/gloabl-styles";
 
@@ -30,6 +27,12 @@ export const AppBottomSheet = forwardRef<BottomSheet, AppBottomSheetProps>(
     return (
       <BottomSheet
         backgroundStyle={styles.bottomSheet}
+        handleIndicatorStyle={{
+          backgroundColor: colors.outlineVariant, // small grab handle at top
+          width: 40,
+          height: 4,
+          borderRadius: 2,
+        }}
         ref={sheetRef}
         index={-1} // initially closed
         snapPoints={memoSnapPoints}

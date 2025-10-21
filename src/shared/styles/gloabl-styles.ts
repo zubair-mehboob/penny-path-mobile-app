@@ -70,6 +70,13 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
     },
     bottomSheet: {
       backgroundColor: colors.background,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      shadowColor: colors.onBackground,
+      shadowOffset: { width: 0, height: -2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 8, //
     },
     bottomSheetIcon: {
       color: colors.onBackground,
