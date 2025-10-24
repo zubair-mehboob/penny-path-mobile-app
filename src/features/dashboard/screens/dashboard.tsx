@@ -16,8 +16,7 @@ export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(0);
   const [account, setAccount] = useState({
-    openingBalance: 3000000.98,
-    closingBalance: 0,
+    balance: 3000000.98,
     isDefault: true,
     title: "Freelance",
     userId: 1,

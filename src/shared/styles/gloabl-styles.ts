@@ -89,7 +89,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       flex: 1,
     },
     modal: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.background,
       alignSelf: "center",
       padding: 20,
       borderRadius: 16,

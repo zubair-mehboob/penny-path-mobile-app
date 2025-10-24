@@ -1,12 +1,12 @@
 // src/shared/components/AccountDetailsModal.tsx
+import { Input } from "@/src/shared/components/input.component";
 import { AppModal } from "@/src/shared/components/modal";
 import React from "react";
 import { View } from "react-native";
-import { TextInput, Switch, Text } from "react-native-paper";
+import { Switch, Text } from "react-native-paper";
 
 type AccountDetails = {
-  openingBalance: number;
-  closingBalance: number;
+  balance: number;
   isDefault: boolean;
   title: string;
   userId: number;
@@ -42,26 +42,16 @@ export const AccountDetailsModal: React.FC<AccountDetailsModalProps> = ({
       onDismiss={onDismiss}
       content={
         <View style={{ gap: 12 }}>
-          <TextInput
-            label="Title"
+          <Input
+            label={"Title"}
             value={form.title}
             onChangeText={(v) => handleChange("title", v)}
           />
-          <TextInput
-            label="Opening Balance"
+          <Input
+            label="Balance"
             keyboardType="numeric"
-            value={String(form.openingBalance)}
-            onChangeText={(v) =>
-              handleChange("openingBalance", parseFloat(v) || 0)
-            }
-          />
-          <TextInput
-            label="Closing Balance"
-            keyboardType="numeric"
-            value={String(form.closingBalance)}
-            onChangeText={(v) =>
-              handleChange("closingBalance", parseFloat(v) || 0)
-            }
+            value={String(form.balance)}
+            onChangeText={(v) => handleChange("balance", parseFloat(v) || 0)}
           />
 
           <View
@@ -77,13 +67,6 @@ export const AccountDetailsModal: React.FC<AccountDetailsModalProps> = ({
               onValueChange={(v) => handleChange("isDefault", v)}
             />
           </View>
-
-          <TextInput
-            label="User ID"
-            keyboardType="numeric"
-            value={String(form.userId)}
-            onChangeText={(v) => handleChange("userId", parseInt(v) || 0)}
-          />
         </View>
       }
       actions={[
