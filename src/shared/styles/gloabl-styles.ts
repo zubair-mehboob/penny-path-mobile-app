@@ -44,7 +44,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       justifyContent: "space-between",
       paddingHorizontal: 16,
       paddingVertical: 10,
-      backgroundColor: colors.primaryContainer,
+      backgroundColor: colors.background,
     },
     headerLeft: {
       flexDirection: "row",
@@ -52,7 +52,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       gap: 8,
     },
     headerTitle: {
-      color: colors.onPrimaryContainer,
+      color: colors.primary,
       fontSize: 20,
       fontWeight: "bold",
     },
@@ -62,7 +62,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       gap: 10,
     },
     headerIcon: {
-      color: colors.onPrimaryContainer,
+      color: colors.primary,
     },
     list: {
       backgroundColor: colors.surfaceVariant,
@@ -95,9 +95,12 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       borderRadius: 16,
     },
     bottomTab: {
-      backgroundColor: colors.primaryContainer,
+      backgroundColor: colors.background,
       borderTopWidth: 0,
       height: 60,
+    },
+    statusbar: {
+      backgroundColor: colors.background,
     },
   });
 export type GlobalStylesType = ReturnType<typeof globalStyles>;

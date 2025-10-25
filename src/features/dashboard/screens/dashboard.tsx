@@ -8,9 +8,11 @@ import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useRef, useState } from "react";
 import { useColorScheme, View } from "react-native";
-import { List, RadioButton, Text, useTheme } from "react-native-paper";
+import { Card, List, RadioButton, Text, useTheme } from "react-native-paper";
 import { AccountDetailsModal } from "../components/add-account";
 import { useGetAccounts, useSetDefaultAccount } from "../hooks/useAccount";
+import MonthlySpendBarChart from "../components/bar-chart";
+import SpendingCards from "../components/spending-card";
 
 export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
@@ -84,7 +86,10 @@ export default function DashboardScreen() {
   return (
     <>
       <View style={styles.container}>
-        <Text>Welcome to the Dashboard!</Text>
+        <View style={{ alignSelf: "center", flexDirection: "row", gap: 10 }}>
+          <SpendingCards total={10000} spent={4000} />
+        </View>
+        <MonthlySpendBarChart />
       </View>
       <AppBottomSheet
         handleComponent={() => (

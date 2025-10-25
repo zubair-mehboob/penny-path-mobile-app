@@ -3,10 +3,12 @@ import { storageService } from "@/src/shared/services/storage.service";
 import { useRootNavigationState, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "react-native-paper";
 export default function Splash() {
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
-
+  const { colors } = useTheme();
   useEffect(() => {
     if (!rootNavigationState?.key) return;
     setRouter(router);
@@ -29,5 +31,10 @@ export default function Splash() {
     initApp();
   }, [rootNavigationState?.key]);
 
-  return <Text>Splash screen</Text>;
+  return (
+    <LinearGradient
+      style={{ flex: 1 }}
+      colors={[colors.primaryContainer, colors.primary]}
+    ></LinearGradient>
+  );
 }

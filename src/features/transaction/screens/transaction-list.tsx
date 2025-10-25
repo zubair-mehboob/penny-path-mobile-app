@@ -59,8 +59,8 @@ export default function TransactionList() {
         renderItem={({ item }: { item: ITransaction }) => (
           <List.Section style={styles.list}>
             <List.Item
-              title={item.title}
-              description={item.date.toString()}
+              title={`${item.amount} Rs.`}
+              description={`${item.title} - ${item.date.toString()}`}
               onPress={() =>
                 router.push(
                   `/(protected)/(tabs)/transaction/${item.transactionId}`

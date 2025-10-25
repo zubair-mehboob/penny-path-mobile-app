@@ -8,6 +8,8 @@ import { Button, Card, Switch, Text, useTheme } from "react-native-paper";
 import { useCreateSplitTransaction } from "../hooks/useTransaction";
 import SplitTransactionForm from "./split-transaction-form";
 import { SplitTransactionsTable } from "./split-transaction-table";
+import { PaperIconButton } from "@/src/shared/components/icon-button";
+import { router } from "expo-router";
 type TransactionDetailProps = {
   defaultValue?: ITransaction;
 };

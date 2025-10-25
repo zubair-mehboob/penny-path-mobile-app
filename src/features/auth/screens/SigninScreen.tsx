@@ -7,6 +7,7 @@ import { View } from "react-native";
 import { Button, useTheme } from "react-native-paper";
 import { useAuthContext } from "../context/AuthContex";
 import { useSignin } from "../hooks/useAuth";
+import { LinearGradient } from "expo-linear-gradient";
 export default function SigninScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +16,15 @@ export default function SigninScreen({ navigation }: any) {
   const { login } = useAuthContext();
   const onSignin = useSignin(login);
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={{
+        flex: 1,
+        paddingInline: 16,
+        justifyContent: "center",
+        //alignItems: "center",
+      }}
+      colors={[colors.primaryContainer, colors.primary]}
+    >
       <Input label="Email" value={email} onChangeText={setEmail} />
       <Input
         label="Password"
@@ -31,6 +40,6 @@ export default function SigninScreen({ navigation }: any) {
       >
         Login
       </Button>
-    </View>
+    </LinearGradient>
   );
 }

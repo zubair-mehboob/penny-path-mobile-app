@@ -1,4 +1,4 @@
-import EditTransactionScreen from "@/src/features/transaction/screens/transaction-detail";
+import TransactionDetailScreen from "@/src/features/transaction/screens/transaction-detail";
 export default function TransactionDetailPage() {
-  return <EditTransactionScreen />;
+  return <TransactionDetailScreen />;
 }
