@@ -35,11 +35,11 @@ export const splitTransaction = async (data: SplitTransactionDTO) => {
 };
 
 // ✅ Update transaction
-export const updateTransaction = async (
-  id: number,
-  data: UpdateTransactionDTO
-) => {
-  const response = await apiClient.put(`/transactions/${id}`, data);
+export const updateTransaction = async (data: Partial<ITransaction>) => {
+  const response = await apiClient.patch(
+    ENDPOINTS.transactions.update(data.transactionId as number),
+    data
+  );
   return response.data;
 };
 

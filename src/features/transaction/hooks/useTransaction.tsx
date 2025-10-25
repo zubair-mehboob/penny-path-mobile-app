@@ -6,6 +6,7 @@ import {
   fetchTransactions,
   getTransactionById,
   splitTransaction,
+  updateTransaction,
 } from "../api/transactions";
 export const useGetTransactions = (accountId: number) => {
   return useQuery<ITransaction[]>({
@@ -15,7 +16,6 @@ export const useGetTransactions = (accountId: number) => {
 };
 
 export const useGetTransactionById = (id: string | string[]) => {
-  console.log("after split transaction get api called with id", id);
   return useQuery({
     queryKey: [`transaction_${id}`],
     queryFn: () => getTransactionById(Number(id)),
@@ -40,13 +40,33 @@ export const useCreateSplitTransaction = () => {
   return useMutation({
     mutationFn: splitTransaction,
     onSuccess: (data: any, variables) => {
-      console.log("after success invalidate this id", variables.parentId);
       queryClient.invalidateQueries({
         queryKey: [`transaction_${variables.parentId}`],
         refetchType: "active",
       });
+    },
+    onError: (err) => {
+      console.log({ err });
+    },
+  });
+};
 
-      console.log({ data }, "split transaction success");
+export const useUpdateTransaction = (parentId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateTransaction,
+    onSuccess: (data: any, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [`transaction_${parentId}`],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [`transactions`],
+        refetchType: "active",
+      });
+      if (variables.transactionId === parentId) {
+        router.back();
+      }
     },
     onError: (err) => {
       console.log({ err });

@@ -34,17 +34,10 @@ export default function TransactionDetailScreen() {
           },
         ],
       });
-    }, [])
+    }, [data])
   );
-  const handleSubmit = (formData: any) => {
-    console.log("Updating:", id, formData);
-    // call update mutation
-  };
 
   if (isLoading) return null;
 
-  return (
-    // <TransactionForm type="edit" defaultValues={data} onSubmit={handleSubmit} />
-    <TransactionDetailComponent defaultValue={data as ITransaction} />
-  );
+  return <TransactionDetailComponent defaultValue={data as ITransaction} />;
 }

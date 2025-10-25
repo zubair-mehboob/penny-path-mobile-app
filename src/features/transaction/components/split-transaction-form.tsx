@@ -4,6 +4,7 @@ import {
   SplitTransactionDTO,
   SplitTransactionSchema,
 } from "@/src/shared/dtos/request/transaction.dto";
+import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -13,8 +14,8 @@ type SplitTransactionFormType = {
   visible: boolean;
   setVisible(visible: boolean): void;
   formType: "create" | "edit";
-  defaultValues: SplitTransactionDTO;
-  onSubmit: (data: SplitTransactionDTO) => void;
+  defaultValues: SplitTransactionDTO | ITransaction;
+  onSubmit: (data: SplitTransactionDTO | ITransaction) => void;
 };
 const SplitTransactionForm = ({
   visible,
@@ -30,7 +31,7 @@ const SplitTransactionForm = ({
     handleSubmit,
     formState: { errors, defaultValues: data },
     reset,
-  } = useForm<SplitTransactionDTO>({
+  } = useForm<SplitTransactionDTO | ITransaction>({
     resolver: zodResolver(schema) as any,
   });
 
@@ -42,7 +43,7 @@ const SplitTransactionForm = ({
       });
     }
   }, [visible]);
-  console.log({ errors, defaultValues });
+
   return (
     <AppModal
       visible={visible}
@@ -127,7 +128,7 @@ const SplitTransactionForm = ({
       actions={[
         {
           label: "Save",
-          // onPress: handleSubmit((data) => console.log(data, "this will set")),
+
           onPress: handleSubmit((data) => onSubmit(data)),
         },
       ]}

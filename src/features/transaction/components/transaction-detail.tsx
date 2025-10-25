@@ -5,11 +5,13 @@ import { globalStyles } from "@/src/shared/styles/gloabl-styles";
 import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button, Card, Switch, Text, useTheme } from "react-native-paper";
-import { useCreateSplitTransaction } from "../hooks/useTransaction";
+import {
+  useCreateSplitTransaction,
+  useUpdateTransaction,
+} from "../hooks/useTransaction";
 import SplitTransactionForm from "./split-transaction-form";
 import { SplitTransactionsTable } from "./split-transaction-table";
-import { PaperIconButton } from "@/src/shared/components/icon-button";
-import { router } from "expo-router";
+
 type TransactionDetailProps = {
   defaultValue?: ITransaction;
 };
@@ -28,9 +30,17 @@ export default function TransactionDetailComponent({
   const accountId = storageService.get("accountId");
   // Open modal for create or edit
   const openModal = (type: "create" | "edit", child?: any) => {
-    console.log({ child }, "'i'm gonna ser");
     setFormType(type);
-    setSelectedChild(child);
+    if (type === "create") {
+      setSelectedChild({
+        title: "",
+        description: "",
+        amount: 0,
+        date: new Date(),
+      } as ITransaction);
+    } else {
+      setSelectedChild(child);
+    }
     setModalVisible(true);
   };
 
@@ -40,28 +50,21 @@ export default function TransactionDetailComponent({
     setSelectedChild(undefined);
   };
   const splitTransactionCreate = useCreateSplitTransaction();
+  const updateTransaction = useUpdateTransaction(
+    transaction?.transactionId as number
+  );
   // Handle form submit
-  const handleSubmit = (data: SplitTransactionDTO) => {
+  const handleSubmit = (data: SplitTransactionDTO | ITransaction) => {
     if (formType === "create") {
       const newChild = {
-        title: data.title,
-        amount: data.amount,
+        ...data,
+        accountId,
+        parentId: transaction?.transactionId,
       };
-      console.log({ newChild, data }, "send this to server");
-      splitTransactionCreate.mutate(data as SplitTransactionDTO);
+
+      splitTransactionCreate.mutate(newChild as SplitTransactionDTO);
     } else if (formType === "edit" && selectedChild) {
-      console.log({ data }, "edit case send to server");
-      //   setTransaction((prev) => {
-      //     if (!prev) return undefined;
-      //     return {
-      //       ...prev,
-      //       children: prev.children.map((c) =>
-      //         c.transactionId === selectedChild.transactionId
-      //           ? { ...c, ...data }
-      //           : c
-      //       ),
-      //     };
-      //   });
+      updateTransaction.mutate({ ...data });
     }
     closeModal();
   };
@@ -76,21 +79,11 @@ export default function TransactionDetailComponent({
         {
           text: "Delete",
           style: "destructive",
-          // onPress: () =>
-          //   setTransaction((prev) => {
-          //     if (!prev) return undefined;
-          //     return {
-          //       ...prev,
-          //       children: prev.children.filter(
-          //         (c) => c.transactionId !== childId
-          //       ),
-          //     };
-          //   }),
         },
       ]
     );
   };
-  console.log({ selectedChild });
+
   return (
     <View style={{ ...styles.container, ...globalStyle.container }}>
       {/* Switch */}
@@ -168,15 +161,9 @@ export default function TransactionDetailComponent({
         setVisible={setModalVisible}
         visible={modalVisible}
         formType={formType}
-        defaultValues={
-          {
-            ...selectedChild,
-            accountId: accountId,
-            parentId: selectedChild?.transactionId
-              ? selectedChild?.transactionId
-              : transaction?.transactionId,
-          } as SplitTransactionDTO
-        }
+        // accountId={accountId as number}
+        // parentId={transaction?.transactionId as number}
+        defaultValues={{ ...selectedChild } as ITransaction}
         onSubmit={handleSubmit}
       />
     </View>
