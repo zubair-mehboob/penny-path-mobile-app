@@ -1,33 +1,24 @@
 // app/(protected)/index.tsx or dashboard.tsx
-import React, { useRef, useCallback, useEffect, useState } from "react";
-import { useColorScheme, View } from "react-native";
 import { AppBottomSheet } from "@/src/shared/components/bottom-sheet";
-import { useGet, usePatch } from "@/src/shared/hooks/useApi";
-import { ENDPOINTS } from "@/src/shared/constants/endpoints.constant";
-import { List, RadioButton, useTheme } from "react-native-paper";
-import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
 import { PaperIconButton } from "@/src/shared/components/icon-button";
-import { Text } from "react-native-paper";
-import { globalStyles } from "@/src/shared/styles/gloabl-styles";
-import { useHeader } from "@/src/shared/providers/header-provider";
-import { useFocusEffect } from "@react-navigation/native";
-import { AppModal } from "@/src/shared/components/modal";
-import { AccountDetailsModal } from "../components/add-account";
-import { fetchAccounts, setDefaultAccount } from "../api/account";
 import { IAccount } from "@/src/shared/dtos/response/account.dto";
-import {
-  useGetAccounts,
-  useGetDefaultAccount,
-  useSetDefaultAccount,
-} from "../hooks/useAccount";
-import { storageService } from "@/src/shared/services/storage.service";
+import { useHeader } from "@/src/shared/providers/header-provider";
+import { globalStyles } from "@/src/shared/styles/gloabl-styles";
+import { BottomSheetFlashList } from "@gorhom/bottom-sheet";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useRef, useState } from "react";
+import { useColorScheme, View } from "react-native";
+import { Card, List, RadioButton, Text, useTheme } from "react-native-paper";
+import { AccountDetailsModal } from "../components/add-account";
+import { useGetAccounts, useSetDefaultAccount } from "../hooks/useAccount";
+import MonthlySpendBarChart from "../components/bar-chart";
+import SpendingCards from "../components/spending-card";
 
 export default function DashboardScreen() {
   const [visible, setVisible] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(0);
   const [account, setAccount] = useState({
-    openingBalance: 3000000.98,
-    closingBalance: 0,
+    balance: 3000000.98,
     isDefault: true,
     title: "Freelance",
     userId: 1,
@@ -63,6 +54,7 @@ export default function DashboardScreen() {
 
   const _renderAccounts = useCallback(
     ({ item, index }: { item: IAccount; index: number }) => {
+      console.log(index + "---------", { item }, "account item\n");
       return (
         <List.Section>
           <List.Item
@@ -94,7 +86,10 @@ export default function DashboardScreen() {
   return (
     <>
       <View style={styles.container}>
-        <Text>Welcome to the Dashboard!</Text>
+        <View style={{ alignSelf: "center", flexDirection: "row", gap: 10 }}>
+          <SpendingCards total={10000} spent={4000} />
+        </View>
+        <MonthlySpendBarChart />
       </View>
       <AppBottomSheet
         handleComponent={() => (
@@ -115,7 +110,6 @@ export default function DashboardScreen() {
           </View>
         )}
         ref={sheetRef}
-        onClose={() => console.log("Sheet closed")}
         maxDynamicContentSize={400}
       >
         <BottomSheetFlashList

@@ -1,13 +1,14 @@
-import { useEffect } from "react";
-import { useRouter, useRootNavigationState } from "expo-router";
-import { storageService } from "@/src/shared/services/storage.service";
-import { Text } from "react-native";
 import { setRouter } from "@/src/shared/services/navigation.service";
-import { useGetDefaultAccount } from "@/src/features/dashboard/hooks/useAccount";
+import { storageService } from "@/src/shared/services/storage.service";
+import { useRootNavigationState, useRouter } from "expo-router";
+import { useEffect } from "react";
+import { Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "react-native-paper";
 export default function Splash() {
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
-
+  const { colors } = useTheme();
   useEffect(() => {
     if (!rootNavigationState?.key) return;
     setRouter(router);
@@ -21,7 +22,7 @@ export default function Splash() {
 
       const storedUser = storageService.get("user");
       if (storedUser) {
-        router.replace("/(protected)");
+        router.replace("/(protected)/(tabs)");
       } else {
         router.replace("/auth");
       }
@@ -30,5 +31,10 @@ export default function Splash() {
     initApp();
   }, [rootNavigationState?.key]);
 
-  return <Text>Splash screen</Text>;
+  return (
+    <LinearGradient
+      style={{ flex: 1 }}
+      colors={[colors.primaryContainer, colors.primary]}
+    ></LinearGradient>
+  );
 }

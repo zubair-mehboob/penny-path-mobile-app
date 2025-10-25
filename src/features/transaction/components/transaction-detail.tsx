@@ -1,23 +1,17 @@
-import { PaperIconButton } from "@/src/shared/components/icon-button";
-import { AppModal } from "@/src/shared/components/modal";
+import { SplitTransactionDTO } from "@/src/shared/dtos/request/transaction.dto";
 import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
-import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
-import {
-  Text,
-  Switch,
-  Button,
-  DataTable,
-  Card,
-  useTheme,
-} from "react-native-paper";
-import { TransactionForm } from "./transaction-form";
-import {
-  CreateTransactionDTO,
-  UpdateTransactionDTO,
-} from "@/src/shared/dtos/request/transaction.dto";
+import { storageService } from "@/src/shared/services/storage.service";
 import { globalStyles } from "@/src/shared/styles/gloabl-styles";
+import React, { useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { Button, Card, Switch, Text, useTheme } from "react-native-paper";
+import {
+  useCreateSplitTransaction,
+  useUpdateTransaction,
+} from "../hooks/useTransaction";
+import SplitTransactionForm from "./split-transaction-form";
 import { SplitTransactionsTable } from "./split-transaction-table";
+
 type TransactionDetailProps = {
   defaultValue?: ITransaction;
 };
@@ -26,19 +20,27 @@ export default function TransactionDetailComponent({
 }: TransactionDetailProps) {
   const { colors } = useTheme();
   const globalStyle = globalStyles(colors);
-  // Example transaction data
 
-  const [transaction, setTransaction] = useState(defaultValue);
+  const transaction = defaultValue;
 
   const [isRecurring, setIsRecurring] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [formType, setFormType] = useState<"create" | "edit">("create");
   const [selectedChild, setSelectedChild] = useState<ITransaction>();
-
+  const accountId = storageService.get("accountId");
   // Open modal for create or edit
   const openModal = (type: "create" | "edit", child?: any) => {
     setFormType(type);
-    setSelectedChild(child);
+    if (type === "create") {
+      setSelectedChild({
+        title: "",
+        description: "",
+        amount: 0,
+        date: new Date(),
+      } as ITransaction);
+    } else {
+      setSelectedChild(child);
+    }
     setModalVisible(true);
   };
 
@@ -47,37 +49,22 @@ export default function TransactionDetailComponent({
     setModalVisible(false);
     setSelectedChild(undefined);
   };
-
+  const splitTransactionCreate = useCreateSplitTransaction();
+  const updateTransaction = useUpdateTransaction(
+    transaction?.transactionId as number
+  );
   // Handle form submit
-  const handleSubmit = (
-    data: CreateTransactionDTO | UpdateTransactionDTO | ITransaction
-  ) => {
+  const handleSubmit = (data: SplitTransactionDTO | ITransaction) => {
     if (formType === "create") {
       const newChild = {
-        title: data.title,
-        amount: data.amount,
+        ...data,
+        accountId,
+        parentId: transaction?.transactionId,
       };
-      console.log({ newChild, data });
-      //   setTransaction((prev) => {
-      //     if (!prev) return undefined;
-      //     return {
-      //       ...prev,
-      //       children: [...prev.children, newChild],
-      //     };
-      //   });
+
+      splitTransactionCreate.mutate(newChild as SplitTransactionDTO);
     } else if (formType === "edit" && selectedChild) {
-      console.log({ data }, "edit case");
-      //   setTransaction((prev) => {
-      //     if (!prev) return undefined;
-      //     return {
-      //       ...prev,
-      //       children: prev.children.map((c) =>
-      //         c.transactionId === selectedChild.transactionId
-      //           ? { ...c, ...data }
-      //           : c
-      //       ),
-      //     };
-      //   });
+      updateTransaction.mutate({ ...data });
     }
     closeModal();
   };
@@ -92,16 +79,6 @@ export default function TransactionDetailComponent({
         {
           text: "Delete",
           style: "destructive",
-          onPress: () =>
-            setTransaction((prev) => {
-              if (!prev) return undefined;
-              return {
-                ...prev,
-                children: prev.children.filter(
-                  (c) => c.transactionId !== childId
-                ),
-              };
-            }),
         },
       ]
     );
@@ -171,8 +148,7 @@ export default function TransactionDetailComponent({
           <Card.Content>
             <SplitTransactionsTable
               childrenData={transaction.children}
-              onEdit={(item: any) => {
-                console.log({ item }, "edit");
+              onEdit={(item: Partial<ITransaction>) => {
                 openModal("edit", item);
               }}
               onDelete={handleDelete}
@@ -180,21 +156,15 @@ export default function TransactionDetailComponent({
           </Card.Content>
         </Card>
       )}
-      <AppModal
+
+      <SplitTransactionForm
+        setVisible={setModalVisible}
         visible={modalVisible}
-        title={
-          formType === "create"
-            ? "Add Split Transaction"
-            : "Edit Split Transaction"
-        }
-        onDismiss={closeModal}
-        content={
-          <TransactionForm
-            type={formType}
-            defaultValues={selectedChild}
-            onSubmit={handleSubmit}
-          />
-        }
+        formType={formType}
+        // accountId={accountId as number}
+        // parentId={transaction?.transactionId as number}
+        defaultValues={{ ...selectedChild } as ITransaction}
+        onSubmit={handleSubmit}
       />
     </View>
   );

@@ -1,3 +1,4 @@
+import DateTimePickerInput from "@/src/shared/components/datetimepicker";
 import {
   CreateTransactionDTO,
   CreateTransactionSchema,
@@ -101,7 +102,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       )}
 
       {/* Date */}
-      <Controller
+      {/* <Controller
         control={control}
         name="date"
         render={({ field: { onChange, value } }) => (
@@ -114,49 +115,29 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             error={!!errors.date}
           />
         )}
-      />
-
-      {/* Account ID */}
+      /> */}
       <Controller
         control={control}
-        name="accountId"
+        name="date"
         render={({ field: { onChange, value } }) => (
-          <TextInput
-            label="Account ID"
-            mode="outlined"
-            keyboardType="numeric"
-            value={String(value ?? "")}
-            onChangeText={(val) => onChange(Number(val))}
-            error={!!errors.accountId}
+          <DateTimePickerInput
+            label="Date"
+            mode="date"
+            value={value || new Date()}
+            onChange={(val) => onChange(new Date(val))}
           />
         )}
       />
-
-      {/* Only for Edit */}
-      {type === "edit" && (
-        <>
-          <Controller
-            control={control}
-            name="parentId"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                label="Parent ID"
-                mode="outlined"
-                keyboardType="numeric"
-                value={String(value ?? "")}
-                onChangeText={(val) => onChange(Number(val))}
-                // error={!!errors.parentId}
-              />
-            )}
-          />
-        </>
-      )}
 
       <Button
         mode="contained"
         onPress={handleSubmit(onSubmit)}
         loading={loading}
         disabled={loading}
+        style={{
+          marginTop: 10,
+          borderRadius: 8,
+        }}
       >
         {type === "edit" ? "Update Transaction" : "Create Transaction"}
       </Button>

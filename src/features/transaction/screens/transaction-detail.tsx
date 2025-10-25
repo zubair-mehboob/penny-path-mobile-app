@@ -1,40 +1,43 @@
-import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
-import { getTransactionById } from "../api/transactions";
-import { TransactionForm } from "../components/transaction-form";
+import { ITransaction } from "@/src/shared/dtos/response/transaction.dto";
+import { useHeader } from "@/src/shared/providers/header-provider";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
-import { useHeader } from "@/src/shared/providers/header-provider";
-import { PaperIconButton } from "@/src/shared/components/icon-button";
-import { tr } from "zod/v4/locales";
 import TransactionDetailComponent from "../components/transaction-detail";
+import { useGetTransactionById } from "../hooks/useTransaction";
+import { PaperIconButton } from "@/src/shared/components/icon-button";
 
-export default function EditTransactionScreen() {
+export default function TransactionDetailScreen() {
   const { id } = useLocalSearchParams();
   const { setHeader } = useHeader();
   const router = useRouter();
-  const { data, isLoading } = useQuery({
-    queryKey: ["transaction", id],
-    queryFn: () => getTransactionById(Number(id)),
-  });
+  const { data, isLoading } = useGetTransactionById(id);
   useFocusEffect(
     React.useCallback(() => {
       setHeader({
         title: "Transaction Detail",
         goBack: true,
+        actions: [
+          {
+            element: (
+              <PaperIconButton
+                icon="pencil"
+                onPress={() =>
+                  router.navigate(
+                    `/(protected)/(tabs)/transaction/edit/${data?.transactionId}`
+                  )
+                }
+              />
+            ),
+            key: "edit",
+          },
+        ],
       });
-    }, [])
+    }, [data])
   );
-  const handleSubmit = (formData: any) => {
-    console.log("Updating:", id, formData);
-    // call update mutation
-  };
 
   if (isLoading) return null;
 
-  return (
-    // <TransactionForm type="edit" defaultValues={data} onSubmit={handleSubmit} />
-    <TransactionDetailComponent defaultValue={data} />
-  );
+  return <TransactionDetailComponent defaultValue={data as ITransaction} />;
 }

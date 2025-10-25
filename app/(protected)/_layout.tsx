@@ -12,9 +12,8 @@ export default function DrawerLayout() {
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="index" options={{ title: "Dashboard" }} />
-      <Drawer.Screen name="transaction" options={{ title: "Transaction" }} />
-      <Drawer.Screen name="settings" options={{ title: "Settings" }} />
+      <Drawer.Screen name="(tabs)" />
+      <Drawer.Screen name="index" options={{ title: "Settings" }} />
     </Drawer>
   );
 }

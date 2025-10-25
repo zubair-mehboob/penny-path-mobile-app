@@ -44,7 +44,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       justifyContent: "space-between",
       paddingHorizontal: 16,
       paddingVertical: 10,
-      backgroundColor: colors.primaryContainer,
+      backgroundColor: colors.background,
     },
     headerLeft: {
       flexDirection: "row",
@@ -52,7 +52,7 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       gap: 8,
     },
     headerTitle: {
-      color: colors.onPrimaryContainer,
+      color: colors.primary,
       fontSize: 20,
       fontWeight: "bold",
     },
@@ -62,30 +62,45 @@ export const globalStyles = (colors: MD3Theme["colors"]) =>
       gap: 10,
     },
     headerIcon: {
-      color: colors.onPrimaryContainer,
+      color: colors.primary,
     },
     list: {
       backgroundColor: colors.surfaceVariant,
       color: colors.onSurfaceVariant,
     },
     bottomSheet: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.background,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+      shadowColor: colors.onBackground,
+      shadowOffset: { width: 0, height: -2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 8, //
     },
     bottomSheetIcon: {
-      color: colors.onSurfaceVariant,
+      color: colors.onBackground,
     },
     bottomSheetTitle: {
-      color: colors.onSurfaceVariant,
+      color: colors.onBackground,
     },
     drawer: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.primaryContainer,
       flex: 1,
     },
     modal: {
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.background,
       alignSelf: "center",
       padding: 20,
       borderRadius: 16,
+    },
+    bottomTab: {
+      backgroundColor: colors.background,
+      borderTopWidth: 0,
+      height: 60,
+    },
+    statusbar: {
+      backgroundColor: colors.background,
     },
   });
 export type GlobalStylesType = ReturnType<typeof globalStyles>;

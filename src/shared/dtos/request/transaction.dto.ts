@@ -18,9 +18,11 @@ export const CreateTransactionSchema = z.object({
         : undefined,
     z.date({ required_error: "Date is required" })
   ),
-  accountId: z.number({
-    required_error: "Account ID is required",
-  }),
+  accountId: z
+    .number({
+      required_error: "Account ID is required",
+    })
+    .optional(),
 });
 export const SplitTransactionSchema = z.object({
   description: z.string().optional(),
@@ -40,21 +42,17 @@ export const SplitTransactionSchema = z.object({
         : undefined,
     z.date({ required_error: "Date is required" })
   ),
-  accountId: z.number({
-    required_error: "Account ID is required",
-  }),
-  parentId: z.number({
-    required_error: "Transaction ID is required",
-  }),
+  accountId: z.number({}).optional(),
+  parentId: z.number({}).optional(),
+  transactionId: z.number().optional(),
 });
 
 export const UpdateTransactionSchema = CreateTransactionSchema.extend({
   parentId: z
-    .number({
-      required_error: "Parent ID is required",
-    })
+    .number()
     .int()
-    .min(1, "Parent ID must be greater than 0"),
+    .min(1, "Parent ID must be greater than 0")
+    .optional(),
   parent: z.any().optional(), // since 'Transaction' is a server entity, keep generic here
 });
 

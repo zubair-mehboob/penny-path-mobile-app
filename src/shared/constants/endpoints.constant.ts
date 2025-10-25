@@ -11,7 +11,8 @@ export const ENDPOINTS = {
     all: (accountId: number) => `/transactions?accountId=${accountId}`,
     create: "/transactions",
     getById: (id: number) => `/transactions/${id}`,
-    splitTransaction: `/add-child-expense`,
+    splitTransaction: `/transactions/add-child-transaction`,
+    update: (id: number) => `/transactions/${id}`,
   },
   accounts: {
     all: `/accounts`,
